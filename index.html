@@ -375,7 +375,7 @@
       <div class="form-grid">
         <label class="field">
           <span>Project name</span>
-          <input type="text" name="project_name" required placeholder="Wednesday Math Circle">
+          <input type="text" name="project_name" required>
         </label>
         <label class="field">
           <span>Cause area</span>
@@ -388,12 +388,16 @@
           </select>
         </label>
         <label class="field">
-          <span>Location</span>
-          <input type="text" name="location" required placeholder="City, country">
+          <span>Where you're based (school, city)</span>
+          <input type="text" name="founder_location" required>
+        </label>
+        <label class="field">
+          <span>Where the community you serve is located</span>
+          <input type="text" name="community_location" required>
         </label>
         <label class="field">
           <span>Founded (year)</span>
-          <input type="text" name="founded_year" required placeholder="2022">
+          <input type="text" name="founded_year" required>
         </label>
         <label class="field">
           <span>Your name</span>
@@ -401,23 +405,23 @@
         </label>
         <label class="field">
           <span>Your email</span>
-          <input type="email" name="founder_email" required placeholder="you@example.com">
+          <input type="email" name="founder_email" required>
         </label>
       </div>
 
       <label class="field field-wide">
         <span>What does this project actually do, week to week?</span>
-        <textarea name="weekly_rhythm" rows="3" required placeholder="e.g. Weekly Wednesday 8am video call, 14 students, one lesson plan per session..."></textarea>
+        <textarea name="weekly_rhythm" rows="3" required></textarea>
       </label>
 
       <label class="field field-wide">
         <span>Key contacts a successor would need (names/roles, not personal info you're not comfortable sharing yet)</span>
-        <textarea name="key_contacts" rows="2" required placeholder="e.g. School coordinator on-site, main donor contact, partner organization liaison"></textarea>
+        <textarea name="key_contacts" rows="2" required></textarea>
       </label>
 
       <label class="field field-wide">
         <span>Budget or resources involved, if any</span>
-        <textarea name="budget" rows="2" placeholder="e.g. $200/year for materials, funded by a single recurring donor"></textarea>
+        <textarea name="budget" rows="2"></textarea>
       </label>
 
       <label class="field field-wide">
@@ -428,6 +432,21 @@
       <label class="field field-wide">
         <span>What would you want in a successor?</span>
         <textarea name="successor_needs" rows="2" required placeholder="e.g. Someone who can commit to Wednesday mornings through at least next school year"></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>Successor location preference</span>
+        <select name="successor_location_preference" required>
+          <option value="" disabled selected>Choose one</option>
+          <option value="found_not_satisfied">I've found a possible successor from my school, but I'm not satisfied with them</option>
+          <option value="prefer_my_area">I'd prefer a successor from schools in my area</option>
+          <option value="anywhere_us">I'm fine with a successor from anywhere in the United States</option>
+        </select>
+      </label>
+
+      <label class="field field-wide">
+        <span>How much time are you willing to dedicate to relaying (handing off) this project?</span>
+        <input type="text" name="handoff_time_commitment" required>
       </label>
 
       <button type="submit" class="btn btn-primary submit-btn">Submit continuity record</button>
