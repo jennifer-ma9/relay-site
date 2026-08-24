@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relay — Keep student-led projects alive after graduation</title>
+<title>Relay — A second life for good ideas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -105,18 +105,9 @@
 
   /* STORY */
   .story{ background:var(--ink); color:var(--paper); }
-  .story .eyebrow{ color:#d9b876; }
-  .story-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:start; }
-  @media (max-width:800px){ .story-grid{ grid-template-columns:1fr; } }
-  .story blockquote{
-    font-family:'Fraunces', serif; font-size:1.5rem; line-height:1.45; font-weight:500;
-    margin:0 0 20px; font-style:italic;
-  }
-  .story p{ line-height:1.7; opacity:0.85; font-size:0.98rem; }
-  .stat-box{ border:1px solid rgba(237,234,224,0.25); padding:26px; border-radius:4px; }
-  .stat-box .num{ font-family:'Fraunces', serif; font-size:2.6rem; color:#d9b876; line-height:1; }
-  .stat-box .label{ font-size:0.85rem; opacity:0.75; margin-top:8px; }
-  .stat-box + .stat-box{ margin-top:18px; }
+  .story .eyebrow{ color:#d9b876; margin-bottom:18px; }
+  .story-single{ max-width:680px; }
+  .story p{ line-height:1.7; opacity:0.85; font-size:1.02rem; }
 
   /* HOW IT WORKS */
   .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
@@ -125,6 +116,13 @@
   .step .idx{ font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--brass-dim); display:block; margin-bottom:14px; }
   .step h3{ font-size:1.15rem; margin-bottom:10px; }
   .step p{ font-size:0.93rem; line-height:1.6; color:rgba(27,42,38,0.75); }
+
+  /* CTAS */
+  .cta-two-col{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media (max-width:700px){ .cta-two-col{ grid-template-columns:1fr; } }
+  .cta-col{ border:1px solid var(--line); border-radius:4px; padding:32px 28px; background:rgba(255,255,255,0.4); }
+  .cta-col h3{ font-size:1.25rem; margin-bottom:10px; }
+  .cta-col p{ font-size:0.95rem; line-height:1.6; color:rgba(27,42,38,0.75); margin-bottom:20px; }
 
   /* BROWSE — empty state */
   .empty-state{
@@ -197,34 +195,29 @@
 
 <section class="hero" style="border-top:none;">
   <div class="wrap">
-    <span class="eyebrow">Started by one tutoring program that shouldn't have ended</span>
-    <h1>When a student founder graduates, their project usually doesn't outlast them.</h1>
-    <p class="lede">Relay is a place to hand your project to someone who wants to keep it going — with the actual contacts, schedule, and lessons you learned running it, not just the idea behind it.</p>
+    <h1>A second life for good ideas.</h1>
+    <p class="lede">Too many student-led projects end when the students who started them graduate. Relay helps those projects find new leaders and gives them the information they need to keep going.</p>
     <div class="btn-row">
-      <a href="#browse" class="btn btn-primary">See projects that need a new leader</a>
-      <a href="#submit" class="btn btn-secondary">Hand off your project</a>
+      <a href="#browse" class="btn btn-primary">Find a project</a>
+      <a href="#submit" class="btn btn-secondary">Pass on a project</a>
     </div>
   </div>
 </section>
 
 <section class="story" id="story">
-  <div class="wrap story-grid">
-    <div>
-      <span class="eyebrow">Backstory</span>
-      <blockquote>"We tutored the same group of girls in math and science every Wednesday morning. Then the club head graduated, and the program just... disappeared."</blockquote>
-      <p>That was a tutoring program for girls in South Africa — a year of shared laptops and a weekly video call, run by students who genuinely cared. When the person leading it left for college, nobody else picked it up. The girls still needed tutors. The lesson plans still existed. The contact at their school was still there. None of it disappeared because we stopped caring — it disappeared because there was no one left holding it, and no clear way to hand it to someone who could.</p>
-      <p style="margin-top:16px;">I've watched the same thing happen to other clubs since — a new one starts almost every year, and an old one quietly stops. Relay is my attempt at breaking that cycle: instead of a new student starting from nothing, they can pick up a project that already has a classroom, a contact, and a Wednesday time slot.</p>
-    </div>
-    <div>
+  <div class="wrap story-single">
+    <span class="eyebrow">Backstory</span>
+    <p>When I was a freshman in high school, I joined a club at my school where we would tutor girls in South Africa. Every Wednesday morning, we'd join a Zoom call with 10–14 girls who shared one computer, and work through math and science problems with them. This became one of my favorite clubs, and I hoped to eventually become a head of the organization. However, the next year, the club founder and Senior Head graduated, and we lost contact with the South African school. I was confused by this, feeling that the students still needed tutors, and the lesson plans still existed, yet the club disappeared because there was no one to take it over.</p>
+    <p style="margin-top:16px;">I've since watched similar things happen to other student-led projects.</p>
+    <p style="margin-top:16px;">Relay is an attempt to make sure a founder graduating doesn't have to mean a project ending.</p>
+  </div>
+</section>
 
-      <div class="stat-box">
-        <div class="num">3 clubs</div>
-        <div class="label">that I personally watched fold at my own school within a year of their founder leaving — this isn't a national statistic, just what I've seen firsthand</div>
-      </div>
-      <div class="stat-box">
-        <div class="num">Every fall</div>
-        <div class="label">a new round of underclassmen start their own version of the same idea, often with no idea a nearly identical project already existed and quietly ended</div>
-      </div>
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Good work shouldn't have to start over.</h2>
+      <p>There are students with ideas. There are students with experience. And there are communities already being served by projects that may disappear when their founders leave. Instead of starting from scratch, what if the next student could pick up where the last one left off?</p>
     </div>
   </div>
 </section>
@@ -233,25 +226,40 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">How it works</span>
-      <h2>What actually happens when you list a project</h2>
-      <p>Relay doesn't touch anything legal — your nonprofit's paperwork, bank account, and board stay exactly where they are. What we're trying to hand off is everything that usually only lives in the founder's head.</p>
+      <h2>How a handoff works</h2>
+      <p>Relay doesn't touch anything legal — your nonprofit's paperwork, bank account, and board stay exactly where they are. We're not trying to transfer the organization itself. We're trying to transfer the knowledge that usually lives in the founder's head.</p>
     </div>
     <div class="steps">
       <div class="step">
         <span class="idx">01</span>
-        <h3>Write down how it actually runs</h3>
-        <p>Who's involved, what a normal week looks like, what it costs, who to call, and what you'd tell the next person if you had ten minutes with them.</p>
+        <h3>Tell us how it works</h3>
+        <p>Share your project's purpose, schedule, contacts, resources, and everything else a new leader would need to know.</p>
       </div>
       <div class="step">
         <span class="idx">02</span>
-        <h3>Someone applies to take it over</h3>
-        <p>They're applying to run this specific project, not just expressing general interest — and they say a little about why and what they can commit to.</p>
+        <h3>Find a new leader</h3>
+        <p>Students looking for a project can browse the ones that are ready for someone new to take them on.</p>
       </div>
       <div class="step">
         <span class="idx">03</span>
-        <h3>You overlap before it's official</h3>
-        <p>You stay involved for a stretch — showing them the ropes, introducing them to your contacts — before you actually step back.</p>
+        <h3>Make the handoff</h3>
+        <p>The founder and new leader work together before the transition, so the knowledge and relationships don't disappear along with the founder.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="ctas">
+  <div class="wrap cta-two-col">
+    <div class="cta-col">
+      <h3>Built something worth continuing?</h3>
+      <p>You don't have to take it with you when you graduate.</p>
+      <a href="#submit" class="btn btn-primary">Pass on your project →</a>
+    </div>
+    <div class="cta-col">
+      <h3>You don't have to start from zero.</h3>
+      <p>Find a project that already has a purpose, a community, and a foundation — and give it your own next chapter.</p>
+      <a href="#browse" class="btn btn-secondary">Find a project →</a>
     </div>
   </div>
 </section>
@@ -259,14 +267,14 @@
 <section id="browse">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">Open for handoff</span>
-      <h2>Projects that need someone to take over</h2>
-      <p>This is brand new — there's nothing listed here yet. Each project that gets submitted will show up with what you'd actually need to run it, not just a description.</p>
+      <span class="eyebrow">Browse</span>
+      <h2>Projects looking for their next leader</h2>
+      <p>This is brand new — nothing's been listed yet. Once projects start coming in, you'll see what a new leader would actually need to run them.</p>
     </div>
     <div class="empty-state">
-      <h3>No listings yet</h3>
-      <p>The first one could be yours. If you're graduating soon and have a project that shouldn't just end, submit it below.</p>
-      <a href="#submit" class="btn btn-primary">Be the first to list a project</a>
+      <h3>Help us get started</h3>
+      <p>If you're graduating soon and have a project you'd like to see continue, we'd love to hear about it.</p>
+      <a href="#submit" class="btn btn-primary">Pass on your project</a>
     </div>
   </div>
 </section>
@@ -275,8 +283,8 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">List your project</span>
-      <h2>Start your continuity record</h2>
-      <p>This takes about 15 minutes. Be specific — the more a future leader can see exactly what running this looks like day to day, the more likely the handoff actually works.</p>
+      <h2>Give your project a second life</h2>
+      <p>Tell us how your project works, what a new leader would need, and what you've learned along the way. This takes about 15 minutes — be specific, since the more a future leader can see what running this looks like day to day, the more likely the handoff actually works.</p>
     </div>
 
     <form id="continuityForm" class="submit-form" action="https://formspree.io/f/mwledvjq" method="POST" enctype="multipart/form-data">
@@ -390,7 +398,7 @@
 
 <footer>
   <div class="wrap foot-grid">
-    <span>© 2026 Relay — made for students, by students.</span>
+    <span>© 2026 Relay — a second life for good ideas. Made for students, by students.</span>
     <div class="foot-links">
       <a href="#story">Why this exists</a>
       <a href="#how">How it works</a>
