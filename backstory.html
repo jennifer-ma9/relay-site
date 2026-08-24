@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backstory — Relay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A26;
+    --paper:#EDEAE0;
+    --paper-dim:#E2DECF;
+    --brass:#B8863B;
+    --brass-dim:#8f6a2e;
+    --moss:#4C6B5D;
+    --rust:#A64B3F;
+    --line: rgba(27,42,38,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{ color:inherit; }
+  .wrap{ max-width:1100px; margin:0 auto; padding:0 32px; }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(237,234,224,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
+  .brand{ display:flex; align-items:center; gap:10px; font-size:1.15rem; }
+  .brand-mark{ width:20px; height:20px; }
+  .nav-links{ display:flex; align-items:center; gap:36px; font-size:0.92rem; }
+  .nav-links a{ text-decoration:none; color:var(--ink); opacity:0.75; transition:opacity .15s; }
+  .nav-links a:hover{ opacity:1; }
+  .nav-links a.active-page{ opacity:1; font-weight:600; }
+  .nav-links a.nav-cta{
+    padding:10px 18px; border-radius:2px; background:var(--ink); color:var(--paper) !important;
+    text-decoration:none; font-size:0.88rem; font-weight:600; opacity:1 !important;
+  }
+  .menu-btn{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .menu-btn span{ display:block; width:22px; height:2px; background:var(--ink); margin:5px 0; }
+  @media (max-width:800px){
+    .nav-links{ position:fixed; inset:64px 0 auto 0; background:var(--paper); flex-direction:column;
+      align-items:flex-start; padding:24px 20px 28px; border-bottom:1px solid var(--line);
+      gap:20px; transform:translateY(-10px); opacity:0; pointer-events:none; transition:all .2s; }
+    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .menu-btn{ display:block; }
+    .nav-cta{ margin-top:4px; }
+  }
+
+  /* PAGE */
+  .page-hero{ padding:64px 0 8px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--brass-dim); margin-bottom:18px; display:block;
+  }
+  .page-hero h1{ font-size:clamp(2rem, 4.5vw, 2.8rem); line-height:1.1; max-width:700px; }
+
+  section{ padding:44px 0 76px; }
+  .content{ max-width:680px; }
+  .content p{ line-height:1.75; font-size:1.05rem; color:rgba(27,42,38,0.85); margin:0 0 20px; }
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; font-size:0.9rem; font-weight:600;
+    text-decoration:none; border-bottom:1px solid var(--ink); margin-top:12px;
+  }
+
+  footer{ padding:44px 0 40px; border-top:1px solid var(--line); }
+  .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.85rem; color:rgba(27,42,38,0.65); }
+  .foot-grid a{ text-decoration:none; }
+  .foot-links{ display:flex; gap:24px; flex-wrap:wrap; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none"><path d="M4 20 L11 4 L13 11 L20 4" stroke="#1B2A26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <strong>Relay</strong>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="backstory.html" class="active-page">Backstory</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#browse">Browse projects</a>
+      <a href="index.html#submit" class="nav-cta">List your project</a>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero" style="padding-bottom:0; border-top:none;">
+  <div class="wrap">
+    <span class="eyebrow">Backstory</span>
+    <h1>Why I built Relay</h1>
+  </div>
+</section>
+
+<section style="padding-top:24px;">
+  <div class="wrap content">
+    <p>When I was a freshman in high school, I joined a club at my school where we would tutor girls in South Africa. Every Wednesday morning, we'd join a Zoom call with 10–14 girls who shared one computer, and work through math and science problems with them. This became one of my favorite clubs, and I hoped to eventually become a head of the organization.</p>
+    <p>However, the next year, the club founder and Senior Head graduated, and we lost contact with the South African school. I was confused by this, feeling that the students still needed tutors, and the lesson plans still existed, yet the club disappeared because there was no one to take it over.</p>
+    <p>I've since watched similar things happen to other student-led projects.</p>
+    <p>Relay is an attempt to make sure a founder graduating doesn't have to mean a project ending.</p>
+    <a href="index.html" class="back-link">← Back to Relay</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <span>© 2026 Relay — a second life for good ideas. Made for students, by students.</span>
+    <div class="foot-links">
+      <a href="backstory.html">Backstory</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#browse">Browse projects</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+</script>
+
+</body>
+</html>
