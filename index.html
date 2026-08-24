@@ -126,30 +126,13 @@
   .step h3{ font-size:1.15rem; margin-bottom:10px; }
   .step p{ font-size:0.93rem; line-height:1.6; color:rgba(27,42,38,0.75); }
 
-  /* BROWSE */
-  .filters{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px; }
-  .chip{
-    padding:8px 16px; border-radius:20px; border:1px solid var(--line); background:transparent;
-    font-size:0.85rem; cursor:pointer; font-family:inherit; color:var(--ink); transition:all .15s;
+  /* BROWSE — empty state */
+  .empty-state{
+    border:1px dashed var(--line); border-radius:4px; padding:48px 32px; text-align:center;
+    max-width:480px; margin:0 auto;
   }
-  .chip.active{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
-  .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
-  @media (max-width:900px){ .cards{ grid-template-columns:1fr 1fr; } }
-  @media (max-width:640px){ .cards{ grid-template-columns:1fr; } }
-  .card{
-    border:1px solid var(--line); border-radius:4px; padding:22px; background:#fff;
-    display:flex; flex-direction:column; gap:10px; transition:transform .15s;
-  }
-  .card:hover{ transform:translateY(-3px); }
-  .card .tag{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; font-family:'IBM Plex Mono', monospace; }
-  .tag.food{ color:var(--rust); } .tag.edu{ color:var(--moss); } .tag.clothing{ color:var(--brass-dim); }
-  .card h3{ font-size:1.08rem; }
-  .card .meta{ font-size:0.82rem; color:rgba(27,42,38,0.6); }
-  .card .desc{ font-size:0.88rem; line-height:1.55; color:rgba(27,42,38,0.75); flex:1; }
-  .status-row{ display:flex; align-items:center; gap:8px; font-size:0.78rem; margin-top:4px; }
-  .status-dot{ width:7px; height:7px; border-radius:50%; }
-  .status-dot.at-risk{ background:var(--rust); }
-  .card a.view{ font-size:0.85rem; font-weight:600; text-decoration:none; border-bottom:1px solid var(--ink); align-self:flex-start; }
+  .empty-state h3{ font-size:1.2rem; margin-bottom:10px; }
+  .empty-state p{ font-size:0.95rem; color:rgba(27,42,38,0.7); margin-bottom:22px; line-height:1.6; }
   .hidden{ display:none !important; }
 
   /* SUBMIT / CTA */
@@ -214,37 +197,12 @@
 
 <section class="hero" style="border-top:none;">
   <div class="wrap">
-    <span class="eyebrow">A registry for student-led projects in transition</span>
-    <h1>Most youth nonprofits don't fail. <em>They just lose their founder.</em></h1>
-    <p class="lede">Relay is a handoff registry: outgoing student founders record what their project actually needs to keep running, and incoming students take it over with the contacts, budget, and playbook already in hand — instead of starting from zero, or letting the work quietly stop.</p>
+    <span class="eyebrow">Started by one tutoring program that shouldn't have ended</span>
+    <h1>When a student founder graduates, their project usually doesn't outlast them.</h1>
+    <p class="lede">Relay is a place to hand your project to someone who wants to keep it going — with the actual contacts, schedule, and lessons you learned running it, not just the idea behind it.</p>
     <div class="btn-row">
-      <a href="#browse" class="btn btn-primary">Browse projects needing a successor</a>
-      <a href="#submit" class="btn btn-secondary">List your project for handoff</a>
-    </div>
-
-    <div class="lifeline-card">
-      <div class="lifeline-head">
-        <h3>Wednesday Math Circle — tutoring program, Cape Town</h3>
-        <span class="mono">3 cohorts tracked</span>
-      </div>
-      <p class="lifeline-sub">What typically happens to a project like this vs. what happens on Relay.</p>
-      <svg class="lifeline-svg" viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg">
-        <line x1="40" y1="150" x2="720" y2="150" stroke="#1B2A26" stroke-opacity="0.15"/>
-        <text x="40" y="172" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1B2A26" opacity="0.55">Fall '22</text>
-        <text x="360" y="172" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1B2A26" opacity="0.55">Founder graduates</text>
-        <text x="670" y="172" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1B2A26" opacity="0.55">Today</text>
-        <path d="M40,60 C160,55 260,60 360,70 C420,120 500,150 720,150" fill="none" stroke="#A64B3F" stroke-width="2.5" stroke-dasharray="1 0"/>
-        <text x="590" y="140" font-family="IBM Plex Mono, monospace" font-size="11" fill="#A64B3F">without handoff</text>
-        <path d="M40,60 C160,55 260,60 360,70 C440,64 520,58 600,50 C650,45 690,42 720,40" fill="none" stroke="#4C6B5D" stroke-width="2.5"/>
-        <text x="590" y="30" font-family="IBM Plex Mono, monospace" font-size="11" fill="#4C6B5D">on Relay</text>
-        <circle cx="360" cy="70" r="4.5" fill="#B8863B"/>
-        <line x1="360" y1="70" x2="360" y2="150" stroke="#B8863B" stroke-width="1" stroke-dasharray="3 3"/>
-      </svg>
-      <div class="lifeline-legend">
-        <span><span class="dot" style="background:#4C6B5D"></span>Handed off through Relay</span>
-        <span><span class="dot" style="background:#A64B3F"></span>Typical path — dissolves within a year</span>
-        <span><span class="dot" style="background:#B8863B"></span>Founder graduation</span>
-      </div>
+      <a href="#browse" class="btn btn-primary">See projects that need a new leader</a>
+      <a href="#submit" class="btn btn-secondary">Hand off your project</a>
     </div>
   </div>
 </section>
@@ -252,19 +210,20 @@
 <section class="story" id="story">
   <div class="wrap story-grid">
     <div>
-      <span class="eyebrow">Why Relay exists</span>
+      <span class="eyebrow">Backstory</span>
       <blockquote>"We tutored the same group of girls in math and science every Wednesday morning. Then the club head graduated, and the program just... disappeared."</blockquote>
-      <p>That's how this started — a tutoring program for girls in South Africa that ran for a year on shared laptops and a weekly video call, built by students who cared and who eventually left for college. The girls didn't stop needing tutors. The lesson plans, the contact who coordinated the classroom, the schedule that worked — none of that vanished because the students weren't willing. It vanished because there was nowhere for it to go.</p>
-      <p style="margin-top:16px;">Relay exists so the next student who wants to start "a tutoring nonprofit" can instead pick up one that already has a classroom, a contact, and a Wednesday slot — and so the communities being served aren't the ones absorbing the cost of a college application cycle ending.</p>
+      <p>That was a tutoring program for girls in South Africa — a year of shared laptops and a weekly video call, run by students who genuinely cared. When the person leading it left for college, nobody else picked it up. The girls still needed tutors. The lesson plans still existed. The contact at their school was still there. None of it disappeared because we stopped caring — it disappeared because there was no one left holding it, and no clear way to hand it to someone who could.</p>
+      <p style="margin-top:16px;">I've watched the same thing happen to other clubs since — a new one starts almost every year, and an old one quietly stops. Relay is my attempt at breaking that cycle: instead of a new student starting from nothing, they can pick up a project that already has a classroom, a contact, and a Wednesday time slot.</p>
     </div>
     <div>
+
       <div class="stat-box">
-        <div class="num">70%+</div>
-        <div class="label">of student-founded clubs and nonprofits go inactive within 12 months of their founder's graduation, by informal estimates from campus and alumni surveys</div>
+        <div class="num">3 clubs</div>
+        <div class="label">that I personally watched fold at my own school within a year of their founder leaving — this isn't a national statistic, just what I've seen firsthand</div>
       </div>
       <div class="stat-box">
-        <div class="num">2–3</div>
-        <div class="label">new "help my community" projects started by underclassmen for every one that quietly folds — most starting from nothing, some duplicating work that already existed</div>
+        <div class="num">Every fall</div>
+        <div class="label">a new round of underclassmen start their own version of the same idea, often with no idea a nearly identical project already existed and quietly ended</div>
       </div>
     </div>
   </div>
@@ -274,24 +233,24 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">How it works</span>
-      <h2>A handoff, not a hand-me-down</h2>
-      <p>Relay isn't a legal transfer of a nonprofit's assets — that stays with founders and their boards. It's a structured record of what makes a project work, so continuity doesn't depend on one person's memory.</p>
+      <h2>What actually happens when you list a project</h2>
+      <p>Relay doesn't touch anything legal — your nonprofit's paperwork, bank account, and board stay exactly where they are. What we're trying to hand off is everything that usually only lives in the founder's head.</p>
     </div>
     <div class="steps">
       <div class="step">
         <span class="idx">01</span>
-        <h3>Founders record the playbook</h3>
-        <p>Outgoing leaders fill out a continuity record: who's involved, what the weekly rhythm looks like, budget, contacts, what worked and what didn't.</p>
+        <h3>Write down how it actually runs</h3>
+        <p>Who's involved, what a normal week looks like, what it costs, who to call, and what you'd tell the next person if you had ten minutes with them.</p>
       </div>
       <div class="step">
         <span class="idx">02</span>
-        <h3>Incoming leaders apply</h3>
-        <p>Students looking to lead something apply to specific projects, not a blank page — with a short written commitment to the community already being served.</p>
+        <h3>Someone applies to take it over</h3>
+        <p>They're applying to run this specific project, not just expressing general interest — and they say a little about why and what they can commit to.</p>
       </div>
       <div class="step">
         <span class="idx">03</span>
-        <h3>A supervised handoff period</h3>
-        <p>Outgoing and incoming leaders overlap for a set window — shadowing sessions, warm introductions to contacts — before the record marks the project as transferred.</p>
+        <h3>You overlap before it's official</h3>
+        <p>You stay involved for a stretch — showing them the ropes, introducing them to your contacts — before you actually step back.</p>
       </div>
     </div>
   </div>
@@ -301,64 +260,13 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Open for handoff</span>
-      <h2>Projects looking for their next leader</h2>
-      <p>Every listing below includes a continuity record — the actual contacts, materials, and schedule required to keep it running.</p>
+      <h2>Projects that need someone to take over</h2>
+      <p>This is brand new — there's nothing listed here yet. Each project that gets submitted will show up with what you'd actually need to run it, not just a description.</p>
     </div>
-    <div class="filters" id="filters">
-      <button class="chip active" data-filter="all">All</button>
-      <button class="chip" data-filter="edu">Education</button>
-      <button class="chip" data-filter="food">Food insecurity</button>
-      <button class="chip" data-filter="clothing">Clothing insecurity</button>
-    </div>
-    <div class="cards" id="cardGrid">
-      <div class="card" data-cat="edu">
-        <span class="tag edu">Education</span>
-        <h3>Wednesday Math Circle</h3>
-        <span class="meta">Cape Town, South Africa · founded 2022</span>
-        <p class="desc">Weekly math &amp; science tutoring for a group of 14 girls over shared video call. Full lesson bank and school contact included.</p>
-        <div class="status-row"><span class="status-dot at-risk"></span>Founder graduates this spring</div>
-        <a class="view" href="#">View continuity record →</a>
-      </div>
-      <div class="card" data-cat="food">
-        <span class="tag food">Food insecurity</span>
-        <h3>Second Harvest Saturdays</h3>
-        <span class="meta">Columbus, OH · founded 2023</span>
-        <p class="desc">Weekend produce recovery from 3 local markets, redistributed to a shelter network. Driver rotation and donor contacts documented.</p>
-        <div class="status-row"><span class="status-dot at-risk"></span>Needs a leader by January</div>
-        <a class="view" href="#">View continuity record →</a>
-      </div>
-      <div class="card" data-cat="clothing">
-        <span class="tag clothing">Clothing insecurity</span>
-        <h3>Warm Coats Initiative</h3>
-        <span class="meta">Detroit, MI · founded 2021</span>
-        <p class="desc">Annual winter coat drive and distribution partnership with two elementary schools. Vendor and school contacts included.</p>
-        <div class="status-row"><span class="status-dot at-risk"></span>Founder graduates this spring</div>
-        <a class="view" href="#">View continuity record →</a>
-      </div>
-      <div class="card" data-cat="edu">
-        <span class="tag edu">Education</span>
-        <h3>Bridge Literacy Circle</h3>
-        <span class="meta">Newark, NJ · founded 2022</span>
-        <p class="desc">Reading support for elementary students at one after-school site. Curriculum, volunteer roster, and site coordinator included.</p>
-        <div class="status-row"><span class="status-dot at-risk"></span>Needs a leader by June</div>
-        <a class="view" href="#">View continuity record →</a>
-      </div>
-      <div class="card" data-cat="food">
-        <span class="tag food">Food insecurity</span>
-        <h3>Corner Pantry Restock</h3>
-        <span class="meta">Tulsa, OK · founded 2023</span>
-        <p class="desc">Monthly restocking of two neighborhood pantry boxes with grocery-store donation partnerships already in place.</p>
-        <div class="status-row"><span class="status-dot at-risk"></span>Needs a leader by January</div>
-        <a class="view" href="#">View continuity record →</a>
-      </div>
-      <div class="card" data-cat="clothing">
-        <span class="tag clothing">Clothing insecurity</span>
-        <h3>Fresh Start Closet</h3>
-        <span class="meta">Portland, OR · founded 2021</span>
-        <p class="desc">Free interview-clothing closet for a local teen shelter, with donor pipeline and sizing system documented.</p>
-        <div class="status-row"><span class="status-dot at-risk"></span>Founder graduates this spring</div>
-        <a class="view" href="#">View continuity record →</a>
-      </div>
+    <div class="empty-state">
+      <h3>No listings yet</h3>
+      <p>The first one could be yours. If you're graduating soon and have a project that shouldn't just end, submit it below.</p>
+      <a href="#submit" class="btn btn-primary">Be the first to list a project</a>
     </div>
   </div>
 </section>
@@ -371,7 +279,7 @@
       <p>This takes about 15 minutes. Be specific — the more a future leader can see exactly what running this looks like day to day, the more likely the handoff actually works.</p>
     </div>
 
-    <form id="continuityForm" class="submit-form" action="https://formspree.io/f/mwledvjq" method="POST">
+    <form id="continuityForm" class="submit-form" action="https://formspree.io/f/mwledvjq" method="POST" enctype="multipart/form-data">
       <div class="form-grid">
         <label class="field">
           <span>Project name</span>
@@ -415,8 +323,23 @@
       </label>
 
       <label class="field field-wide">
-        <span>Key contacts a successor would need (names/roles, not personal info you're not comfortable sharing yet)</span>
+        <span>How many people are currently involved in your organization?</span>
+        <input type="text" name="current_group_size" required>
+      </label>
+
+      <label class="field field-wide">
+        <span>Key contacts a successor would need</span>
         <textarea name="key_contacts" rows="2" required></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>Any documents, spreadsheets, member lists, or attendance sheets a successor would need</span>
+        <input type="file" name="supporting_documents" multiple>
+      </label>
+
+      <label class="field field-wide">
+        <span>Social media accounts that would need to be run (Instagram, etc.) — handles or links</span>
+        <input type="text" name="social_media_accounts">
       </label>
 
       <label class="field field-wide">
@@ -449,6 +372,11 @@
         <input type="text" name="handoff_time_commitment" required>
       </label>
 
+      <label class="field field-wide">
+        <span>Write a short message to whoever ends up taking this over</span>
+        <textarea name="message_to_successor" rows="4" required placeholder="Hey — if you're reading this, it means you're about to pick up something I care a lot about. It's not perfect, and there's more to do than I ever got to. Don't be afraid to change what isn't working, but please keep talking to the people we're serving — they're the reason any of this mattered in the first place. I'm around if you ever want to reach out. Good luck."></textarea>
+      </label>
+
       <button type="submit" class="btn btn-primary submit-btn">Submit continuity record</button>
       <p class="form-note">This goes straight to our team's inbox for review before it's listed publicly — we'll follow up by email.</p>
     </form>
@@ -462,7 +390,7 @@
 
 <footer>
   <div class="wrap foot-grid">
-    <span>© 2026 Relay. Built by students, for students.</span>
+    <span>© 2026 Relay — made for students, by students.</span>
     <div class="foot-links">
       <a href="#story">Why this exists</a>
       <a href="#how">How it works</a>
@@ -503,19 +431,6 @@
       submitBtn.textContent = 'Submit continuity record';
       alert('Something went wrong submitting the form — please try again in a moment.');
     }
-  });
-
-  const chips = document.querySelectorAll('#filters .chip');
-  const cards = document.querySelectorAll('#cardGrid .card');
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      const f = chip.dataset.filter;
-      cards.forEach(card => {
-        card.classList.toggle('hidden', f !== 'all' && card.dataset.cat !== f);
-      });
-    });
   });
 </script>
 
