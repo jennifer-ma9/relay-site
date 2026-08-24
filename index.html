@@ -164,6 +164,30 @@
   .foot-grid a{ text-decoration:none; }
   .foot-links{ display:flex; gap:24px; flex-wrap:wrap; }
 
+  /* SUBMISSION FORM */
+  .submit-form{ max-width:760px; }
+  .form-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-bottom:20px; }
+  @media (max-width:800px){ .form-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .form-grid{ grid-template-columns:1fr; } }
+  .field{ display:flex; flex-direction:column; gap:7px; font-size:0.85rem; font-weight:600; }
+  .field-wide{ grid-column:1/-1; margin-bottom:20px; }
+  .field input, .field select, .field textarea{
+    font-family:'Public Sans', sans-serif; font-size:0.92rem; font-weight:400;
+    padding:11px 12px; border:1px solid var(--line); border-radius:3px; background:#fff; color:var(--ink);
+    resize:vertical;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--moss); outline-offset:1px; border-color:var(--moss);
+  }
+  .submit-btn{ border:none; cursor:pointer; font-family:inherit; }
+  .form-note{ font-size:0.8rem; color:rgba(27,42,38,0.6); margin-top:14px; }
+  .form-success{
+    max-width:560px; padding:26px 28px; border:1px solid var(--moss); border-radius:4px;
+    background:rgba(76,107,93,0.08);
+  }
+  .form-success h3{ font-size:1.15rem; margin-bottom:8px; }
+  .form-success p{ font-size:0.92rem; line-height:1.6; color:rgba(27,42,38,0.8); }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     *{ transition:none !important; }
@@ -339,13 +363,81 @@
   </div>
 </section>
 
-<section class="cta-band" id="submit">
-  <div class="wrap cta-inner">
-    <div>
-      <h2>Graduating soon? Don't let it end here.</h2>
-      <p>List your project in about 15 minutes. We'll help you write the continuity record and find someone who wants to keep it going.</p>
+<section id="submit">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">List your project</span>
+      <h2>Start your continuity record</h2>
+      <p>This takes about 15 minutes. Be specific — the more a future leader can see exactly what running this looks like day to day, the more likely the handoff actually works.</p>
     </div>
-    <a href="#" class="btn btn-on-moss">Start your continuity record</a>
+
+    <form id="continuityForm" class="submit-form" action="https://formspree.io/f/mwledvjq" method="POST">
+      <div class="form-grid">
+        <label class="field">
+          <span>Project name</span>
+          <input type="text" name="project_name" required placeholder="Wednesday Math Circle">
+        </label>
+        <label class="field">
+          <span>Cause area</span>
+          <select name="cause_area" required>
+            <option value="" disabled selected>Choose one</option>
+            <option>Education</option>
+            <option>Food insecurity</option>
+            <option>Clothing insecurity</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Location</span>
+          <input type="text" name="location" required placeholder="City, country">
+        </label>
+        <label class="field">
+          <span>Founded (year)</span>
+          <input type="text" name="founded_year" required placeholder="2022">
+        </label>
+        <label class="field">
+          <span>Your name</span>
+          <input type="text" name="founder_name" required>
+        </label>
+        <label class="field">
+          <span>Your email</span>
+          <input type="email" name="founder_email" required placeholder="you@example.com">
+        </label>
+      </div>
+
+      <label class="field field-wide">
+        <span>What does this project actually do, week to week?</span>
+        <textarea name="weekly_rhythm" rows="3" required placeholder="e.g. Weekly Wednesday 8am video call, 14 students, one lesson plan per session..."></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>Key contacts a successor would need (names/roles, not personal info you're not comfortable sharing yet)</span>
+        <textarea name="key_contacts" rows="2" required placeholder="e.g. School coordinator on-site, main donor contact, partner organization liaison"></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>Budget or resources involved, if any</span>
+        <textarea name="budget" rows="2" placeholder="e.g. $200/year for materials, funded by a single recurring donor"></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>Why is a handoff needed?</span>
+        <textarea name="handoff_reason" rows="2" required placeholder="e.g. I'm graduating in June and no one else in the club has taken point on this"></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>What would you want in a successor?</span>
+        <textarea name="successor_needs" rows="2" required placeholder="e.g. Someone who can commit to Wednesday mornings through at least next school year"></textarea>
+      </label>
+
+      <button type="submit" class="btn btn-primary submit-btn">Submit continuity record</button>
+      <p class="form-note">This goes straight to our team's inbox for review before it's listed publicly — we'll follow up by email.</p>
+    </form>
+
+    <div id="formSuccess" class="form-success hidden">
+      <h3>Received — thank you.</h3>
+      <p>We'll review your continuity record and follow up by email within a few days before it goes live on the Browse page.</p>
+    </div>
   </div>
 </section>
 
@@ -365,6 +457,34 @@
   const navLinks = document.getElementById('navLinks');
   menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const continuityForm = document.getElementById('continuityForm');
+  const formSuccess = document.getElementById('formSuccess');
+  continuityForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = continuityForm.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+    try {
+      const res = await fetch(continuityForm.action, {
+        method: 'POST',
+        body: new FormData(continuityForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        continuityForm.classList.add('hidden');
+        formSuccess.classList.remove('hidden');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit continuity record';
+        alert('Something went wrong submitting the form — please try again in a moment.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit continuity record';
+      alert('Something went wrong submitting the form — please try again in a moment.');
+    }
+  });
 
   const chips = document.querySelectorAll('#filters .chip');
   const cards = document.querySelectorAll('#cardGrid .card');
