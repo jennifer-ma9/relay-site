@@ -139,6 +139,7 @@
   .listing-card h3{ font-size:1.08rem; }
   .listing-card .meta{ font-size:0.82rem; color:rgba(27,42,38,0.6); }
   .listing-card .desc{ font-size:0.88rem; line-height:1.55; color:rgba(27,42,38,0.75); }
+  .listing-card .apply-btn{ margin-top:6px; align-self:flex-start; }
   .hidden{ display:none !important; }
 
   footer{ padding:44px 0 40px; }
@@ -298,6 +299,65 @@
       <h3>No listings yet</h3>
       <p>Check back soon, or be the first to pass one on.</p>
       <a href="#submit" class="btn btn-primary">Pass on your project</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="apply">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Apply</span>
+      <h2>Apply to take this over</h2>
+      <p>This goes to Relay for review, not directly to the founder — we'll check your reference and make the introduction ourselves once things line up.</p>
+    </div>
+
+    <form id="applyForm" class="submit-form" action="https://formspree.io/f/mdenqljg" method="POST">
+      <input type="hidden" id="applyingForField" name="project_applying_for" value="">
+      <p style="margin-bottom:20px; font-size:0.95rem;">Applying for: <strong id="applyingForLabel">Select a project above first</strong></p>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>Your name</span>
+          <input type="text" name="applicant_name" required>
+        </label>
+        <label class="field">
+          <span>Your email</span>
+          <input type="email" name="applicant_email" required>
+        </label>
+        <label class="field">
+          <span>Your school</span>
+          <input type="text" name="applicant_school" required>
+        </label>
+      </div>
+
+      <label class="field field-wide">
+        <span>Why are you interested in this project?</span>
+        <textarea name="why_interested" rows="3" required></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>What can you commit to? (time, schedule, how long you can stick with it)</span>
+        <textarea name="commitment" rows="2" required></textarea>
+      </label>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>A teacher, counselor, or advisor who can vouch for you</span>
+          <input type="text" name="reference_name" required>
+        </label>
+        <label class="field">
+          <span>Their email</span>
+          <input type="email" name="reference_email" required>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary apply-submit-btn">Submit application</button>
+      <p class="form-note">We'll reach out to your reference and follow up by email — this usually takes a few days.</p>
+    </form>
+
+    <div id="applySuccess" class="form-success hidden">
+      <h3>Application received — thank you.</h3>
+      <p>We'll check in with your reference and follow up by email. If it's a good fit, we'll make the introduction to the founder ourselves.</p>
     </div>
   </div>
 </section>
@@ -479,6 +539,34 @@
     });
   });
 
+  const applyForm = document.getElementById('applyForm');
+  const applySuccess = document.getElementById('applySuccess');
+  applyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = applyForm.querySelector('.apply-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+    try {
+      const res = await fetch(applyForm.action, {
+        method: 'POST',
+        body: new FormData(applyForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        applyForm.classList.add('hidden');
+        applySuccess.classList.remove('hidden');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit application';
+        alert('Something went wrong submitting the form — please try again in a moment.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit application';
+      alert('Something went wrong submitting the form — please try again in a moment.');
+    }
+  });
+
   const continuityForm = document.getElementById('continuityForm');
   const formSuccess = document.getElementById('formSuccess');
   continuityForm.addEventListener('submit', async (e) => {
@@ -536,10 +624,20 @@
         <h3>${l.name}</h3>
         <span class="meta">${l.location} · founded ${l.founded}</span>
         <p class="desc">${l.desc}</p>
+        <a href="#apply" class="btn btn-secondary apply-btn" data-listing-id="${l.id}" data-listing-name="${l.name}">Apply to take this over →</a>
       </div>
     `).join('');
   }
   renderListings();
+
+  document.getElementById('listingsGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.apply-btn');
+    if (!btn) return;
+    e.preventDefault();
+    document.getElementById('applyingForField').value = btn.dataset.listingName;
+    document.getElementById('applyingForLabel').textContent = btn.dataset.listingName;
+    document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   /* ---- MODAL ---- */
   const torchModal = document.getElementById('torchModal');
