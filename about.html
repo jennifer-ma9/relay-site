@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Relay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14202E;
+    --paper:#F4EEE1;
+    --paper-dim:#EDE6D3;
+    --sienna:#23433B;
+    --brass:#3D7A6C;
+    --brass-dim:#23433B;
+    --moss:#3D7A6C;
+    --rust:#23433B;
+    --line: rgba(20,32,46,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{ color:inherit; }
+  .wrap{ max-width:1100px; margin:0 auto; padding:0 32px; }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(35,67,59,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
+  .brand{ display:flex; align-items:center; gap:10px; font-size:1.15rem; color:var(--paper); }
+  .brand-mark{ width:20px; height:20px; }
+  .nav-links{ display:flex; align-items:center; gap:36px; font-size:0.92rem; }
+  .nav-links a{ text-decoration:none; color:var(--paper); opacity:0.8; transition:opacity .15s; }
+  .nav-links a:hover{ opacity:1; }
+  .nav-links a.active-page{ opacity:1; font-weight:600; }
+  .nav-links a.nav-cta{
+    padding:10px 18px; border-radius:2px; background:var(--ink); color:var(--paper) !important;
+    text-decoration:none; font-size:0.88rem; font-weight:600; opacity:1 !important;
+  }
+  .menu-btn{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .menu-btn span{ display:block; width:22px; height:2px; background:var(--paper); margin:5px 0; }
+  @media (max-width:800px){
+    .nav-links{ position:fixed; inset:64px 0 auto 0; background:var(--sienna); flex-direction:column;
+      align-items:flex-start; padding:24px 20px 28px; border-bottom:1px solid var(--line);
+      gap:20px; transform:translateY(-10px); opacity:0; pointer-events:none; transition:all .2s; }
+    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .menu-btn{ display:block; }
+    .nav-cta{ margin-top:4px; }
+  }
+
+  /* TORCH DIVIDER */
+  .torch-divider{ background:var(--sienna); padding:22px 0; display:flex; justify-content:center; }
+  .torch-divider svg{ animation:torchFlicker 2.6s ease-in-out infinite; }
+  @keyframes torchFlicker{
+    0%,100%{ filter:brightness(1) drop-shadow(0 0 5px rgba(232,162,74,0.4)); }
+    50%{ filter:brightness(1.18) drop-shadow(0 0 16px rgba(232,162,74,0.65)); }
+  }
+
+  /* PAGE */
+  .page-hero{ padding:64px 0 8px; background:var(--paper-dim); }
+  .eyebrow{
+    font-family:'Inter', sans-serif; font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--brass-dim); margin-bottom:18px; font-weight:600; display:block;
+  }
+  .page-hero h1{ font-size:clamp(2rem, 4.5vw, 2.8rem); line-height:1.1; max-width:700px; }
+  .byline{ display:flex; align-items:center; gap:12px; margin-top:24px; }
+  .byline-photo{
+    width:44px; height:44px; border-radius:50%; object-fit:cover;
+    border:1px solid var(--line);
+  }
+  .byline span{ font-size:0.92rem; color:rgba(20,32,46,0.75); font-weight:500; }
+
+  section{ padding:44px 0 76px; }
+  .content{ max-width:680px; }
+  .content p{ line-height:1.75; font-size:1.05rem; color:rgba(20,32,46,0.85); margin:0 0 20px; }
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; font-size:0.9rem; font-weight:600;
+    text-decoration:none; border-bottom:1px solid var(--ink); margin-top:12px;
+  }
+
+  /* HOW IT WORKS (moved from index.html) */
+  .section-head{ max-width:640px; margin-bottom:36px; }
+  .section-head .eyebrow{ margin-bottom:14px; }
+  .section-head h2{ font-size:clamp(1.6rem,3vw,2.1rem); line-height:1.2; }
+  .steps{ display:grid; gap:24px; }
+  .steps.two-col{ grid-template-columns:1fr 1fr; }
+  @media (max-width:640px){ .steps.two-col{ grid-template-columns:1fr; } }
+  .step h3{ font-size:1.08rem; margin-bottom:8px; }
+  .step p{ font-size:0.95rem; line-height:1.6; color:rgba(20,32,46,0.78); }
+
+  /* STORY (moved from index.html) */
+  .story{ background:var(--sienna); color:var(--paper-dim); }
+  .story-single{ max-width:680px; }
+  .story p{ line-height:1.7; opacity:0.85; font-size:1.02rem; }
+
+  footer{ padding:44px 0 40px; background:var(--sienna); }
+  .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.85rem; color:rgba(244,238,225,0.85); }
+  .foot-grid a{ text-decoration:none; color:var(--paper); }
+  .foot-links{ display:flex; gap:24px; flex-wrap:wrap; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
+        <path d="M12 21V13" stroke="#F4EEE1" stroke-width="2" stroke-linecap="round"/>
+        <path d="M9 13c-0.7-1.2-1-2.6-1-4c0-3.5 2.7-6.3 4-7c1.3 0.7 4 3.5 4 7c0 1.4-0.3 2.8-1 4" stroke="#3D7A6C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 13h6" stroke="#F4EEE1" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <strong>Relay</strong>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="about.html" class="active-page">About Relay</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#browse">Browse projects</a>
+      <a href="index.html#submit" class="nav-cta">List your project</a>
+    </div>
+  </nav>
+</header>
+
+<div class="torch-divider">
+  <svg viewBox="0 0 100 140" width="60" height="84" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="torchGlowSmall" cx="50%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#FBE7B8" stop-opacity="0.75"/>
+        <stop offset="45%" stop-color="#E8A24A" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#E8A24A" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="45" r="50" fill="url(#torchGlowSmall)"/>
+    <path d="M43 120 L43 78 Q43 74 47 73 L53 73 Q57 74 57 78 L57 120 Q57 124 53 124 L47 124 Q43 124 43 120 Z" fill="#14202E"/>
+    <rect x="42" y="86" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <rect x="42" y="96" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <rect x="42" y="106" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <path d="M40 73 L60 73 L56 66 L44 66 Z" fill="#3D7A6C"/>
+    <path d="M40 40 C34 44 31 50 33 56 C34 59 37 60 39 58 C37 54 37 49 40 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M60 40 C66 44 69 50 67 56 C66 59 63 60 61 58 C63 54 63 49 60 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M50 6 C39 19 32 34 35 47 C36 53 40 57 44 57 C42 50 43 42 47 36 C48 43 52 48 51 56 C56 54 59 49 59 42 C58 29 54 16 50 6 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M50 15 C43 25 39 35 41 44 C42 48 44 51 47 51 C46 46 46 40 49 36 C50 41 52 45 51 51 C55 49 57 45 57 40 C56 32 53 23 50 15 Z" fill="#E8A24A" opacity="0.92"/>
+    <path d="M50 27 C47 32 46 37 47 41 C47.5 43 49 44 50 44 C51 44 52.5 43 53 41 C54 37 53 32 50 27 Z" fill="#FDF3D8" opacity="0.95"/>
+  </svg>
+</div>
+
+<section class="story" id="story">
+  <div class="wrap story-single">
+    <h2 style="font-size:clamp(1.8rem,3.4vw,2.4rem); color:var(--paper-dim);">Somewhere, someone is starting what someone else just left behind.</h2>
+    <p style="margin-top:16px;">Every year, students graduate and leave behind projects they've poured years into. At the same time, new students are dreaming up ideas to serve their communities, solve problems, and make a difference. Relay connects the two.</p>
+  </div>
+</section>
+
+<section class="page-hero" style="padding-bottom:0; border-top:none;">
+  <div class="wrap">
+    <span class="eyebrow">About</span>
+    <h1>Why I built Relay</h1>
+    <div class="byline">
+      <img src="founder-photo.jpg" alt="Jennifer Ma" class="byline-photo">
+      <span>Written by Jennifer Ma, founder of Relay</span>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:24px;">
+  <div class="wrap content">
+    <p>When I was a freshman in high school, I joined a club at my school where we would tutor girls in South Africa. Every Wednesday morning, we'd join a Zoom call with 10–14 girls who shared one computer, and work through math and science problems with them. This became one of my favorite clubs, and I hoped to eventually become a head of the organization.</p>
+    <p>However, the next year, the founder and Senior Head of our club graduated, and we lost contact with the South African school. I wondered for months after this, what would happen to the routine we'd built with the South African girls. Their weekly tutoring and improvement had been stalled and abandoned completely. The community we had been helping still existed, their need for our help still existed, everything – lesson plans, tutors, were still in place – yet the club simply disappeared because there was no one to take it over.</p>
+    <p>I've since watched similar things happen to other student-led projects. Ones with more pressing issues like food insecurity, clothing insecurity, and health.</p>
+    <p>Relay is an attempt to pass on existing projects, keeping the torch of passion and impact alive.</p>
+    <a href="index.html" class="back-link">← Back to Relay</a>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Every handoff needs two things.</h2>
+    </div>
+    <div class="steps two-col">
+      <div class="step">
+        <h3>Something worth carrying forward</h3>
+        <p>A project's mission, resources, relationships, and foundation.</p>
+      </div>
+      <div class="step">
+        <h3>Someone ready to carry it</h3>
+        <p>A new leader with ideas, vision, and passion for what comes next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="torch-divider">
+  <svg viewBox="0 0 100 140" width="60" height="84" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="torchGlowSmall2" cx="50%" cy="35%" r="65%">
+        <stop offset="0%" stop-color="#FBE7B8" stop-opacity="0.75"/>
+        <stop offset="45%" stop-color="#E8A24A" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#E8A24A" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="45" r="50" fill="url(#torchGlowSmall2)"/>
+    <path d="M43 120 L43 78 Q43 74 47 73 L53 73 Q57 74 57 78 L57 120 Q57 124 53 124 L47 124 Q43 124 43 120 Z" fill="#14202E"/>
+    <rect x="42" y="86" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <rect x="42" y="96" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <rect x="42" y="106" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <path d="M40 73 L60 73 L56 66 L44 66 Z" fill="#3D7A6C"/>
+    <path d="M40 40 C34 44 31 50 33 56 C34 59 37 60 39 58 C37 54 37 49 40 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M60 40 C66 44 69 50 67 56 C66 59 63 60 61 58 C63 54 63 49 60 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M50 6 C39 19 32 34 35 47 C36 53 40 57 44 57 C42 50 43 42 47 36 C48 43 52 48 51 56 C56 54 59 49 59 42 C58 29 54 16 50 6 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M50 15 C43 25 39 35 41 44 C42 48 44 51 47 51 C46 46 46 40 49 36 C50 41 52 45 51 51 C55 49 57 45 57 40 C56 32 53 23 50 15 Z" fill="#E8A24A" opacity="0.92"/>
+    <path d="M50 27 C47 32 46 37 47 41 C47.5 43 49 44 50 44 C51 44 52.5 43 53 41 C54 37 53 32 50 27 Z" fill="#FDF3D8" opacity="0.95"/>
+  </svg>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <span>© 2026 Relay — a second life for good ideas. Made for students, by students.</span>
+    <div class="foot-links">
+      <a href="about.html">About Relay</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#browse">Browse projects</a>
+      <a href="index.html#submit" class="nav-cta">List your project</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+</script>
+
+</body>
+</html>
