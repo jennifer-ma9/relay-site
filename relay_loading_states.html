@@ -1,0 +1,31 @@
+<style>
+@keyframes runX { 0% { left: 0%; } 100% { left: calc(100% - 26px); } }
+@keyframes runBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.runner-track { position: relative; height: 30px; }
+.runner-icon { position: absolute; top:0; font-size:22px; color:#b8410f; animation: runX 2.4s ease-in-out infinite alternate, runBounce 0.4s ease-in-out infinite; }
+
+@keyframes matIn { 0% { opacity:0; transform: translateY(6px); } 100% { opacity:1; transform: translateY(0); } }
+@keyframes flicker { 0% { fill:#c1440e; } 50% { fill:#e8934a; } 100% { fill:#d9722c; } }
+@keyframes flameWave { 0%,100% { transform: scaleY(1) scaleX(1); } 50% { transform: scaleY(1.08) scaleX(0.94); } }
+.torch-handle { opacity:0; animation: matIn 1.4s ease-out 0.3s forwards; }
+.torch-flame { opacity:0; transform-origin:50% 90%; animation: matIn 1s ease-out 0.9s forwards, flicker 1.4s ease-in-out 1.4s infinite, flameWave 1.8s ease-in-out 1.4s infinite; }
+</style>
+
+<div style="display:flex; flex-direction:column; gap:16px; max-width:680px;">
+
+  <div style="background:#f2e9da; border-radius:12px; padding:24px 28px;">
+    <p style="font-size:14px; color:#6b5d4a; margin:0 0 14px;">Relaying your idea to the next leg of the race.</p>
+    <div class="runner-track">
+      <i class="ti ti-run runner-icon" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <div style="background:#f2e9da; border-radius:12px; padding:24px 28px; text-align:center;">
+    <p style="font-size:14px; color:#6b5d4a; margin:0 0 16px;">You'll hear back once someone picks up the torch.</p>
+    <svg width="40" height="52" viewBox="0 0 26 26" style="display:block; margin:0 auto;">
+      <path class="torch-flame" d="M13 3 C10 7 9 10 11 13 C9 14 8 16 8 18 C8 21 10 23 13 23 C16 23 18 21 18 18 C18 16 17 14 15 13 C17 10 16 7 13 3 Z" fill="#d9722c"/>
+      <rect class="torch-handle" x="11.5" y="17" width="3" height="6" fill="#2a2019"/>
+    </svg>
+  </div>
+
+</div>
