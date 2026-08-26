@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Relay</title>
+<title>Relay — Keep the Torch Alive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -16,7 +16,10 @@
     --brass-dim:#23433B;
     --moss:#3D7A6C;
     --rust:#23433B;
-    --line: rgba(20,32,46,0.16);
+    --line:rgba(20,32,46,0.16);
+    --muted:#445059;
+    --btn-border:#14202E;
+    --btn-ink:#F4EEE1;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -33,6 +36,7 @@
     letter-spacing:-0.01em;
     margin:0;
   }
+  .mono{ font-family:'Inter', sans-serif; }
   a{ color:inherit; }
   .wrap{ max-width:1100px; margin:0 auto; padding:0 32px; }
   @media (max-width:640px){ .wrap{ padding:0 20px; } }
@@ -51,10 +55,6 @@
   .nav-links a{ text-decoration:none; color:var(--paper); opacity:0.8; transition:opacity .15s; }
   .nav-links a:hover{ opacity:1; }
   .nav-links a.active-page{ opacity:1; font-weight:600; }
-  .nav-links a.nav-cta{
-    padding:10px 18px; border-radius:2px; background:var(--ink); color:var(--paper) !important;
-    text-decoration:none; font-size:0.88rem; font-weight:600; opacity:1 !important;
-  }
   .menu-btn{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
   .menu-btn span{ display:block; width:22px; height:2px; background:var(--paper); margin:5px 0; }
   @media (max-width:800px){
@@ -63,7 +63,6 @@
       gap:20px; transform:translateY(-10px); opacity:0; pointer-events:none; transition:all .2s; }
     .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
     .menu-btn{ display:block; }
-    .nav-cta{ margin-top:4px; }
   }
 
   /* TORCH DIVIDER */
@@ -74,52 +73,178 @@
     50%{ filter:brightness(1.18) drop-shadow(0 0 16px rgba(232,162,74,0.65)); }
   }
 
-  /* PAGE */
-  .page-hero{ padding:64px 0 8px; background:var(--paper-dim); }
+  /* HERO */
+  .hero{
+    padding:108px 0 100px; color:var(--paper-dim); background:#23433B;
+    position:relative; overflow:hidden;
+  }
+  .hero .wrap{ position:relative; z-index:2; }
+  .hero-glow{
+    position:absolute; top:50%; right:-90px; transform:translateY(-50%);
+    width:460px; height:460px; z-index:1; cursor:pointer;
+  }
+  .hero-glow svg{
+    display:block; transition:filter .4s ease, transform .4s ease;
+    filter:brightness(1) drop-shadow(0 0 0 rgba(244,238,225,0));
+  }
+  .hero-glow:hover svg{
+    filter:brightness(1.4) drop-shadow(0 0 34px rgba(244,238,225,0.55));
+    transform:scale(1.045);
+  }
+  .flame-core{ transition:opacity .4s ease; }
+  .hero-glow:hover .flame-core{ opacity:1; }
+  @media (max-width:960px){ .hero-glow{ width:320px; height:320px; right:-140px; opacity:0.7; } }
+  @media (max-width:640px){ .hero-glow{ display:none; } }
+  .rule{ width:64px; height:2px; background:#A9CFC2; margin:0 0 30px; }
   .eyebrow{
     font-family:'Inter', sans-serif; font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--brass-dim); margin-bottom:18px; font-weight:600; display:block;
+    color:var(--brass-dim); margin-bottom:22px; font-weight:600; display:block;
   }
-  .page-hero h1{ font-size:clamp(2rem, 4.5vw, 2.8rem); line-height:1.1; max-width:700px; }
-  .byline{ display:flex; align-items:center; gap:12px; margin-top:24px; }
-  .byline-photo{
-    width:44px; height:44px; border-radius:50%; object-fit:cover;
-    border:1px solid var(--line);
+  .hero .eyebrow{ color:#A9CFC2; }
+  .hero h1{
+    font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600;
+    font-size:clamp(2.4rem,5.4vw,4.2rem); line-height:1.08; max-width:700px; color:var(--paper-dim);
   }
-  .byline span{ font-size:0.92rem; color:rgba(20,32,46,0.75); font-weight:500; }
+  .hero p.lede{ font-size:1.08rem; line-height:1.7; max-width:520px; margin:26px 0 38px; color:rgba(244,238,225,0.75); }
+  .btn-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    padding:13px 24px; border-radius:2px; font-weight:600; font-size:0.95rem; text-decoration:none;
+    display:inline-block; transition:transform .15s ease, box-shadow .15s ease; border:none; cursor:pointer; font-family:'Inter', sans-serif;
+  }
+  .btn-primary{ background:var(--brass); color:var(--btn-ink); }
+  .btn-secondary{ background:transparent; color:var(--ink); border:1px solid var(--btn-border); }
+  .hero .btn-secondary{ color:var(--paper-dim); border:1px solid rgba(244,238,225,0.4); }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-large{ padding:18px 32px; font-size:1.05rem; }
 
-  section{ padding:44px 0 76px; }
-  .content{ max-width:680px; }
-  .content p{ line-height:1.75; font-size:1.05rem; color:rgba(20,32,46,0.85); margin:0 0 20px; }
-  .back-link{
-    display:inline-flex; align-items:center; gap:6px; font-size:0.9rem; font-weight:600;
-    text-decoration:none; border-bottom:1px solid var(--ink); margin-top:12px;
-  }
-
-  /* HOW IT WORKS (moved from index.html) */
-  .section-head{ max-width:640px; margin-bottom:36px; }
+  /* SECTION shared */
+  section{ padding:76px 0; border-top:1px solid var(--line); }
+  .section-alt{ background:var(--paper-dim); }
+  .section-head{ max-width:640px; margin-bottom:46px; }
   .section-head .eyebrow{ margin-bottom:14px; }
-  .section-head h2{ font-size:clamp(1.6rem,3vw,2.1rem); line-height:1.2; }
-  .steps{ display:grid; gap:24px; }
+  .section-head h2{ font-size:clamp(1.8rem,3.4vw,2.4rem); line-height:1.15; }
+  .section-head p{ margin-top:16px; font-size:1.03rem; line-height:1.6; color:var(--muted); }
+
+  /* HOW IT WORKS */
+  #how{ background:var(--sienna); }
+  #how .section-head .eyebrow{ color:#A9CFC2; }
+  #how .section-head h2{ color:var(--paper-dim); }
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  @media (max-width:800px){ .steps{ grid-template-columns:1fr; } }
   .steps.two-col{ grid-template-columns:1fr 1fr; }
   @media (max-width:640px){ .steps.two-col{ grid-template-columns:1fr; } }
-  .step h3{ font-size:1.08rem; margin-bottom:8px; }
-  .step p{ font-size:0.95rem; line-height:1.6; color:rgba(20,32,46,0.78); }
+  .step{ border:1px solid var(--line); border-radius:4px; padding:28px 24px; background:var(--paper-dim); }
+  .step .idx{ font-family:'Inter', sans-serif; font-size:0.78rem; letter-spacing:0.04em; color:var(--brass-dim); display:block; margin-bottom:14px; font-weight:600; }
+  .step h3{ font-size:1.15rem; margin-bottom:10px; }
+  .step p{ font-size:0.93rem; line-height:1.6; color:var(--muted); }
 
-  /* STORY (moved from index.html) */
-  .story{ background:var(--sienna); color:var(--paper-dim); }
-  .story-single{ max-width:680px; }
-  .story p{ line-height:1.7; opacity:0.85; font-size:1.02rem; }
+  #how .step{ background:rgba(244,238,225,0.14); border-color:rgba(244,238,225,0.3); }
+  #how .step .idx{ color:var(--paper-dim); }
+  #how .step h3{ color:var(--paper-dim); }
+  #how .step p{ color:rgba(244,238,225,0.8); }
+
+  /* FORK (choose your path) */
+  .fork{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+  @media (max-width:700px){ .fork{ grid-template-columns:1fr; } }
+  .fork-option{
+    text-align:left; border:1px solid var(--line); border-radius:4px; padding:24px 22px;
+    background:#fff; cursor:pointer; transition:border-color .15s, transform .15s;
+    font-family:inherit;
+  }
+  .fork-option:hover{ transform:translateY(-2px); }
+  .fork-option.selected{ border-color:var(--moss); border-width:2px; }
+  .fork-option h3{ font-size:1.05rem; margin-bottom:6px; }
+  .fork-option p{ font-size:0.88rem; color:var(--muted); margin:0; }
+  .fork-blurb{
+    margin-top:28px; padding:18px 20px; border-left:3px solid var(--moss);
+    background:rgba(61,122,108,0.06); font-size:0.95rem; line-height:1.6;
+  }
+
+  /* BROWSE — empty state */
+  .empty-state{
+    border:1px dashed var(--line); border-radius:4px; padding:48px 32px; text-align:center;
+    max-width:480px; margin:0 auto;
+  }
+  .empty-state h3{ font-size:1.2rem; margin-bottom:10px; }
+  .empty-state p{ font-size:0.95rem; color:var(--muted); margin-bottom:22px; line-height:1.6; }
+
+  /* BROWSE — listing card */
+  .listings{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-bottom:32px; }
+  @media (max-width:900px){ .listings{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .listings{ grid-template-columns:1fr; } }
+  .listing-card{
+    border:1px solid var(--line); border-radius:4px; padding:22px; background:#fff;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .listing-card .tag{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; font-family:'Inter', sans-serif; font-weight:600; color:var(--brass-dim); }
+  .listing-card h3{ font-size:1.08rem; }
+  .listing-card .meta{ font-size:0.82rem; color:var(--muted); }
+  .listing-card .desc{ font-size:0.88rem; line-height:1.55; color:var(--muted); }
+  .listing-card .apply-btn{ margin-top:6px; align-self:flex-start; }
+  .hidden{ display:none !important; }
 
   footer{ padding:44px 0 40px; background:var(--sienna); }
   .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.85rem; color:rgba(244,238,225,0.85); }
   .foot-grid a{ text-decoration:none; color:var(--paper); }
   .foot-links{ display:flex; gap:24px; flex-wrap:wrap; }
 
+  /* SUBMISSION FORM */
+  .submit-form{ max-width:760px; }
+  .form-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-bottom:20px; }
+  @media (max-width:800px){ .form-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .form-grid{ grid-template-columns:1fr; } }
+  .field{ display:flex; flex-direction:column; gap:7px; font-size:0.85rem; font-weight:600; }
+  .field-wide{ grid-column:1/-1; margin-bottom:20px; }
+  .field input, .field select, .field textarea{
+    font-family:'Inter', sans-serif; font-size:0.92rem; font-weight:400;
+    padding:11px 12px; border:1px solid var(--line); border-radius:3px; background:#fff; color:var(--ink);
+    resize:vertical;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--moss); outline-offset:1px; border-color:var(--moss);
+  }
+  .radio-row{ display:flex; gap:24px; margin-top:2px; }
+  .radio-option{ display:flex; align-items:center; gap:8px; font-weight:500; font-size:0.92rem; cursor:pointer; }
+  .radio-option input{ width:16px; height:16px; accent-color:var(--moss); }
+  .form-note{ font-size:0.8rem; color:var(--muted); margin-top:14px; }
+  .form-success{
+    max-width:560px; padding:26px 28px; border:1px solid var(--moss); border-radius:4px;
+    background:rgba(61,122,108,0.08);
+  }
+  .form-success h3{ font-size:1.15rem; margin-bottom:8px; }
+  .form-success p{ font-size:0.92rem; line-height:1.6; color:var(--muted); }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     *{ transition:none !important; animation:none !important; }
   }
+
+  /* MODAL */
+  .modal-overlay{
+    position:fixed; inset:0; background:var(--muted); z-index:100;
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-box{
+    background:var(--paper); border-radius:6px; padding:36px 32px; max-width:560px; width:100%;
+    max-height:85vh; overflow-y:auto; position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,0.4);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer;
+    font-size:1.4rem; line-height:1; color:var(--ink); opacity:0.6; padding:4px;
+  }
+  .modal-close:hover{ opacity:1; }
+  .modal-box h3{ font-size:1.3rem; margin-bottom:20px; padding-right:20px; }
+  .modal-choices{ display:flex; flex-direction:column; gap:12px; }
+  .idea-result{
+    border:1px solid var(--line); border-radius:4px; padding:18px; margin-top:14px; background:#fff;
+  }
+  .idea-result .fit-note{
+    font-size:0.82rem; font-weight:600; color:var(--moss); margin-bottom:8px; display:block;
+  }
+  .idea-result h4{ font-size:1.05rem; font-family:'Cormorant Garamond',serif; font-weight:600; margin-bottom:4px; }
+  .idea-result p{ font-size:0.88rem; color:var(--muted); line-height:1.5; margin:6px 0 10px; }
+  .idea-result a.view-link{ font-size:0.85rem; font-weight:600; text-decoration:none; border-bottom:1px solid var(--ink); }
+  .listing-card.highlight{ border-color:var(--moss); border-width:2px; box-shadow:0 0 0 4px rgba(61,122,108,0.12); }
 </style>
 </head>
 <body>
@@ -136,10 +261,10 @@
     </div>
     <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="about.html" class="active-page">About Relay</a>
-      <a href="index.html#how">How it works</a>
-      <a href="index.html#browse">Browse projects</a>
-      <a href="index.html#submit" class="nav-cta">List your project</a>
+      <a href="about.html">About Relay</a>
+      <a href="#how">How it works</a>
+      <a href="#browse">Browse projects</a>
+      <a href="#submit" class="nav-cta" style="padding:10px 18px; border-radius:2px; background:var(--ink); color:var(--paper) !important; opacity:1 !important; font-weight:600;">Pass the Torch</a>
     </div>
   </nav>
 </header>
@@ -154,62 +279,285 @@
       </radialGradient>
     </defs>
     <circle cx="50" cy="45" r="50" fill="url(#torchGlowSmall)"/>
+    <!-- handle -->
     <path d="M43 120 L43 78 Q43 74 47 73 L53 73 Q57 74 57 78 L57 120 Q57 124 53 124 L47 124 Q43 124 43 120 Z" fill="#14202E"/>
+    <!-- grip bindings -->
     <rect x="42" y="86" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
     <rect x="42" y="96" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
     <rect x="42" y="106" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
+    <!-- collar -->
     <path d="M40 73 L60 73 L56 66 L44 66 Z" fill="#3D7A6C"/>
+    <!-- side flicker tips -->
     <path d="M40 40 C34 44 31 50 33 56 C34 59 37 60 39 58 C37 54 37 49 40 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
     <path d="M60 40 C66 44 69 50 67 56 C66 59 63 60 61 58 C63 54 63 49 60 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <!-- outer flame outline -->
     <path d="M50 6 C39 19 32 34 35 47 C36 53 40 57 44 57 C42 50 43 42 47 36 C48 43 52 48 51 56 C56 54 59 49 59 42 C58 29 54 16 50 6 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
+    <!-- mid flame -->
     <path d="M50 15 C43 25 39 35 41 44 C42 48 44 51 47 51 C46 46 46 40 49 36 C50 41 52 45 51 51 C55 49 57 45 57 40 C56 32 53 23 50 15 Z" fill="#E8A24A" opacity="0.92"/>
+    <!-- inner core -->
     <path d="M50 27 C47 32 46 37 47 41 C47.5 43 49 44 50 44 C51 44 52.5 43 53 41 C54 37 53 32 50 27 Z" fill="#FDF3D8" opacity="0.95"/>
   </svg>
 </div>
 
-<section class="story" id="story">
-  <div class="wrap story-single">
-    <h2 style="font-size:clamp(1.8rem,3.4vw,2.4rem); color:var(--paper-dim);">Somewhere, someone is starting what someone else just left behind.</h2>
-    <p style="margin-top:16px;">Every year, students graduate and leave behind projects they've poured years into. At the same time, new students are dreaming up ideas to serve their communities, solve problems, and make a difference. Relay connects the two.</p>
+<section class="hero" style="border-top:none;">
+  <div class="hero-glow">
+    <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="heroGlow" cx="46%" cy="44%" r="55%">
+          <stop offset="0%" stop-color="#E9DFCC" stop-opacity="0.85"/>
+          <stop offset="45%" stop-color="#3D7A6C" stop-opacity="0.32"/>
+          <stop offset="100%" stop-color="#3D7A6C" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="230" cy="230" r="220" fill="url(#heroGlow)"/>
+      <circle cx="230" cy="230" r="172" fill="none" stroke="#F4EEE1" stroke-width="3"/>
+      <g transform="translate(155,140) scale(7.5)">
+        <!-- handle -->
+        <path d="M10.3 21.6 L10.3 14.2 Q10.3 13.6 10.9 13.5 L13.1 13.5 Q13.7 13.6 13.7 14.2 L13.7 21.6 Q13.7 22 13.2 22 L10.8 22 Q10.3 22 10.3 21.6 Z" fill="#14202E"/>
+        <!-- grip bindings -->
+        <rect x="10.1" y="15.5" width="3.8" height="0.85" rx="0.3" fill="#3D7A6C"/>
+        <rect x="10.1" y="17.5" width="3.8" height="0.85" rx="0.3" fill="#3D7A6C"/>
+        <rect x="10.1" y="19.5" width="3.8" height="0.85" rx="0.3" fill="#3D7A6C"/>
+        <!-- collar where flame meets handle -->
+        <path d="M9.6 13.6 L14.4 13.6 L13.5 12.5 L10.5 12.5 Z" fill="#3D7A6C"/>
+        <!-- outer flame flicker (outline only) -->
+        <path d="M12 1.2 C9.3 4.6 7.6 8.3 8.4 11.4 C8.7 12.7 9.5 13.5 10.6 13.6 C10.1 12 10.3 10.1 11.2 8.7 C11.5 10.4 12.4 11.6 12.2 13.4 C13.5 13 14.3 11.7 14.2 10.1 C14 7 12.9 3.9 12 1.2 Z" fill="none" stroke="#F4EEE1" stroke-width="0.4" stroke-linejoin="round"/>
+        <!-- mid flame -->
+        <path d="M12 3.6 C10.2 6.1 9.3 8.6 9.8 10.7 C10 11.6 10.6 12.2 11.3 12.3 C11 11.1 11.1 9.7 11.8 8.6 C12 9.9 12.6 10.8 12.4 12.3 C13.2 12 13.7 11.1 13.6 9.9 C13.4 7.6 12.7 5.4 12 3.6 Z" fill="#3D7A6C" opacity="0.88"/>
+        <!-- inner bright core, brightens on hover -->
+        <path class="flame-core" d="M12 6.6 C11.1 7.9 10.8 9.2 11.1 10.3 C11.25 10.8 11.6 11.05 12 11.05 C12.4 11.05 12.75 10.8 12.9 10.3 C13.2 9.2 12.9 7.9 12 6.6 Z" fill="#EDE6D3" opacity="0.88"/>
+      </g>
+    </svg>
   </div>
-</section>
-
-<section class="page-hero" style="padding-bottom:0; border-top:none;">
   <div class="wrap">
-    <span class="eyebrow">About</span>
-    <h1>Why I built Relay</h1>
-    <div class="byline">
-      <img src="founder-photo.jpg" alt="Jennifer Ma" class="byline-photo">
-      <span>Written by Jennifer Ma, founder of Relay</span>
+    <div class="rule"></div>
+    <span class="eyebrow">A second life for good ideas</span>
+    <h1>Relay the idea, keep the torch alive.</h1>
+    <p class="lede">Too many student-led projects end when the students who started them graduate. Relay helps those projects find new leaders and gives them the information they need to keep going.</p>
+    <div class="btn-row">
+      <button id="takeTorchBtn" class="btn btn-primary">Take the Torch</button>
+      <a href="#submit" class="btn btn-secondary">Pass the Torch</a>
     </div>
   </div>
 </section>
 
-<section style="padding-top:24px;">
-  <div class="wrap content">
-    <p>When I was a freshman in high school, I joined a club at my school where we would tutor girls in South Africa. Every Wednesday morning, we'd join a Zoom call with 10–14 girls who shared one computer, and work through math and science problems with them. This became one of my favorite clubs, and I hoped to eventually become a head of the organization.</p>
-    <p>However, the next year, the founder and Senior Head of our club graduated, and we lost contact with the South African school. I wondered for months after this, what would happen to the routine we'd built with the South African girls. Their weekly tutoring and improvement had been stalled and abandoned completely. The community we had been helping still existed, their need for our help still existed, everything – lesson plans, tutors, were still in place – yet the club simply disappeared because there was no one to take it over.</p>
-    <p>I've since watched similar things happen to other student-led projects. Ones with more pressing issues like food insecurity, clothing insecurity, and health.</p>
-    <p>Relay is an attempt to pass on existing projects, keeping the torch of passion and impact alive.</p>
-    <a href="index.html" class="back-link">← Back to Relay</a>
-  </div>
-</section>
-
-<section>
+<section class="section-alt" id="how">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">How it works</span>
-      <h2>Every handoff needs two things.</h2>
+      <h2>How a handoff works</h2>
     </div>
-    <div class="steps two-col">
+    <div class="steps">
       <div class="step">
-        <h3>Something worth carrying forward</h3>
-        <p>A project's mission, resources, relationships, and foundation.</p>
+        <span class="idx">01</span>
+        <h3>Tell us how it works</h3>
+        <p>Share your project's purpose, schedule, contacts, resources, and everything else a new leader would need to know.</p>
       </div>
       <div class="step">
-        <h3>Someone ready to carry it</h3>
-        <p>A new leader with ideas, vision, and passion for what comes next.</p>
+        <span class="idx">02</span>
+        <h3>Find a new leader</h3>
+        <p>Students looking for a project can browse the ones that are ready for someone new to take them on.</p>
       </div>
+      <div class="step">
+        <span class="idx">03</span>
+        <h3>Make the handoff</h3>
+        <p>The founder and new leader work together before the transition, so the knowledge and relationships don't disappear along with the founder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="browse">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Browse</span>
+      <h2>Projects looking for their next leader</h2>
+      <p>Every listing below comes from a real founder who's ready to hand things off.</p>
+    </div>
+    <div class="listings" id="listingsGrid"></div>
+    <div id="emptyState" class="empty-state hidden">
+      <h3>No listings yet</h3>
+      <p>Check back soon, or be the first to pass one on.</p>
+      <a href="#submit" class="btn btn-primary">Pass on your project</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="apply">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Apply</span>
+      <h2>Apply to take this over</h2>
+      <p>This goes to Relay for review, not directly to the founder — we'll check your reference and make the introduction ourselves once things line up.</p>
+    </div>
+
+    <form id="applyForm" class="submit-form" action="https://formspree.io/f/mdenqljg" method="POST">
+      <input type="hidden" id="applyingForField" name="project_applying_for" value="">
+      <p style="margin-bottom:20px; font-size:0.95rem;">Applying for: <strong id="applyingForLabel">Select a project above first</strong></p>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>Your name</span>
+          <input type="text" name="applicant_name" required>
+        </label>
+        <label class="field">
+          <span>Your email</span>
+          <input type="email" name="applicant_email" required>
+        </label>
+        <label class="field">
+          <span>Your school</span>
+          <input type="text" name="applicant_school" required>
+        </label>
+      </div>
+
+      <label class="field field-wide">
+        <span>Why are you interested in this project?</span>
+        <textarea name="why_interested" rows="3" required></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>What can you commit to? (time, schedule, how long you can stick with it)</span>
+        <textarea name="commitment" rows="2" required></textarea>
+      </label>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>A teacher, counselor, or advisor who can vouch for you</span>
+          <input type="text" name="reference_name" required>
+        </label>
+        <label class="field">
+          <span>Their email</span>
+          <input type="email" name="reference_email" required>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary apply-submit-btn">Submit application</button>
+      <p class="form-note">We'll reach out to your reference and follow up by email — this usually takes a few days.</p>
+    </form>
+
+    <div id="applySuccess" class="form-success hidden">
+      <h3>Application received — thank you.</h3>
+      <p>We'll check in with your reference and follow up by email. If it's a good fit, we'll make the introduction to the founder ourselves.</p>
+    </div>
+  </div>
+</section>
+
+<section id="submit">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">List your project</span>
+      <h2>Give your project a second life</h2>
+      <p>Tell us how your project works, what a new leader would need, and what you've learned along the way. This takes about 15 minutes — be specific, since the more a future leader can see what running this looks like day to day, the more likely the handoff actually works.</p>
+    </div>
+
+    <form id="continuityForm" class="submit-form" action="https://formspree.io/f/mwledvjq" method="POST" enctype="multipart/form-data">
+      <div class="form-grid">
+        <label class="field">
+          <span>Project name</span>
+          <input type="text" name="project_name" required>
+        </label>
+        <label class="field">
+          <span>Cause area</span>
+          <select name="cause_area" id="causeArea" required>
+            <option value="" disabled selected>Choose one</option>
+            <option>Education</option>
+            <option>Food insecurity</option>
+            <option>Clothing insecurity</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="field hidden" id="causeAreaOtherField">
+          <span>If "Other," please specify</span>
+          <input type="text" name="cause_area_other">
+        </label>
+        <label class="field">
+          <span>Where you're based (school, city)</span>
+          <input type="text" name="founder_location" required>
+        </label>
+        <label class="field">
+          <span>Where the community you serve is located</span>
+          <input type="text" name="community_location" required>
+        </label>
+        <label class="field">
+          <span>Founded (year)</span>
+          <input type="text" name="founded_year" required>
+        </label>
+        <label class="field">
+          <span>Your name</span>
+          <input type="text" name="founder_name" required>
+        </label>
+        <label class="field">
+          <span>Your email</span>
+          <input type="email" name="founder_email" required>
+        </label>
+      </div>
+
+      <label class="field field-wide">
+        <span>Is this project a school-based club?</span>
+        <div class="radio-row">
+          <label class="radio-option"><input type="radio" name="is_school_club" value="Yes" required> Yes</label>
+          <label class="radio-option"><input type="radio" name="is_school_club" value="No" required> No</label>
+        </div>
+      </label>
+
+      <div class="form-grid hidden" id="schoolClubFields">
+        <label class="field">
+          <span>What school?</span>
+          <input type="text" name="school_name">
+        </label>
+        <label class="field">
+          <span>Email of a school contact to reach out to</span>
+          <input type="email" name="school_contact_email">
+        </label>
+      </div>
+
+      <label class="field field-wide">
+        <span>What does this project actually do, week to week?</span>
+        <textarea name="weekly_rhythm" rows="3" required></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>How many people are currently involved in your organization?</span>
+        <input type="text" name="current_group_size" required>
+      </label>
+
+      <label class="field field-wide">
+        <span>Key contacts a successor would need</span>
+        <textarea name="key_contacts" rows="2" required></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>Any documents, spreadsheets, member lists, or attendance sheets a successor would need (e.g. budget or resources involved)</span>
+        <input type="file" name="supporting_documents" multiple>
+      </label>
+
+      <label class="field field-wide">
+        <span>(Optional) Social media accounts (Instagram, etc.) — handles or links</span>
+        <input type="text" name="social_media_accounts">
+      </label>
+
+      <label class="field field-wide">
+        <span>Why is a handoff needed?</span>
+        <textarea name="handoff_reason" rows="2" required placeholder="e.g. I'm graduating in June and no one else in the club has taken point on this"></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>What would you want in a successor?</span>
+        <textarea name="successor_needs" rows="2" required placeholder="e.g. Someone who can commit to Wednesday mornings through at least next school year"></textarea>
+      </label>
+
+      <label class="field field-wide">
+        <span>How much time are you willing to dedicate to relaying (handing off) this project?</span>
+        <input type="text" name="handoff_time_commitment" required>
+      </label>
+
+      <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+      <p class="form-note">This goes straight to our team's inbox for review before it's listed publicly — we'll follow up by email.</p>
+    </form>
+
+    <div id="formSuccess" class="form-success hidden">
+      <h3>Received — thank you.</h3>
+      <p>We'll review your continuity record and follow up by email within a few days before it goes live on the Browse page.</p>
     </div>
   </div>
 </section>
@@ -242,18 +590,252 @@
     <span>© 2026 Relay — a second life for good ideas. Made for students, by students.</span>
     <div class="foot-links">
       <a href="about.html">About Relay</a>
-      <a href="index.html#how">How it works</a>
-      <a href="index.html#browse">Browse projects</a>
-      <a href="index.html#submit" class="nav-cta">List your project</a>
+      <a href="#how">How it works</a>
+      <a href="#browse">Browse projects</a>
     </div>
   </div>
 </footer>
+
+<div id="torchModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <button id="modalClose" class="modal-close" aria-label="Close">&times;</button>
+    <h3 id="modalTitle">What are you looking for?</h3>
+
+    <div id="modalChoices" class="modal-choices">
+      <button id="modalBrowseBtn" class="fork-option">
+        <h3>Look for something that exists</h3>
+        <p>Browse the projects currently open for a new leader.</p>
+      </button>
+      <button id="modalIdeaBtn" class="fork-option">
+        <h3>Tell me what your idea is</h3>
+        <p>Describe what you want to work on, and we'll look for a project that fits — or one you could build it into.</p>
+      </button>
+    </div>
+
+    <div id="modalIdeaArea" class="hidden" style="margin-top:8px;">
+      <label class="field field-wide" style="margin-bottom:14px;">
+        <span>What do you want to work on?</span>
+        <textarea id="ideaText" rows="3" placeholder="e.g. I want to help with food insecurity, or bring history education to young kids"></textarea>
+      </label>
+      <button id="ideaSubmitBtn" class="btn btn-primary">Find a match</button>
+      <div id="ideaResults"></div>
+    </div>
+  </div>
+</div>
 
 <script>
   const menuBtn = document.getElementById('menuBtn');
   const navLinks = document.getElementById('navLinks');
   menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const causeArea = document.getElementById('causeArea');
+  const causeAreaOtherField = document.getElementById('causeAreaOtherField');
+  causeArea.addEventListener('change', () => {
+    causeAreaOtherField.classList.toggle('hidden', causeArea.value !== 'Other');
+  });
+
+  const schoolClubFields = document.getElementById('schoolClubFields');
+  document.querySelectorAll('input[name="is_school_club"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      schoolClubFields.classList.toggle('hidden', radio.value !== 'Yes' || !radio.checked);
+    });
+  });
+
+  const applyForm = document.getElementById('applyForm');
+  const applySuccess = document.getElementById('applySuccess');
+  applyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = applyForm.querySelector('.apply-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+    try {
+      const res = await fetch(applyForm.action, {
+        method: 'POST',
+        body: new FormData(applyForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        applyForm.classList.add('hidden');
+        applySuccess.classList.remove('hidden');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit application';
+        alert('Something went wrong submitting the form — please try again in a moment.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit application';
+      alert('Something went wrong submitting the form — please try again in a moment.');
+    }
+  });
+
+  const continuityForm = document.getElementById('continuityForm');
+  const formSuccess = document.getElementById('formSuccess');
+  continuityForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = continuityForm.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+    try {
+      const res = await fetch(continuityForm.action, {
+        method: 'POST',
+        body: new FormData(continuityForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        continuityForm.classList.add('hidden');
+        formSuccess.classList.remove('hidden');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+        alert('Something went wrong submitting the form — please try again in a moment.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+      alert('Something went wrong submitting the form — please try again in a moment.');
+    }
+  });
+
+  /* ---- LISTINGS DATA ----
+     Single source of truth for both the Browse grid and the idea-matching search.
+     To add a new real listing: copy an object below, fill in the fields, save. */
+  const LISTINGS = [
+    {
+      id: "girls-elevate-tutoring",
+      name: "Girls Elevate Tutoring",
+      cause: "Education",
+      location: "Baldwin School, PA · serving Cape Town, South Africa",
+      founded: 2022,
+      desc: "Weekly Wednesday 8am video call tutoring 10–14 students in math and science. The founder has graduated and the club needs a new leader to keep it running.",
+      keywords: ["education","tutoring","math","science","students","girls","south africa","mentorship","academic","stem","school","learning","kids","children","youth"]
+    }
+  ];
+
+  function renderListings() {
+    const grid = document.getElementById('listingsGrid');
+    const emptyState = document.getElementById('emptyState');
+    if (LISTINGS.length === 0) {
+      grid.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      return;
+    }
+    grid.innerHTML = LISTINGS.map(l => `
+      <div class="listing-card" id="listing-${l.id}">
+        <span class="tag">${l.cause}</span>
+        <h3>${l.name}</h3>
+        <span class="meta">${l.location} · founded ${l.founded}</span>
+        <p class="desc">${l.desc}</p>
+        <a href="#apply" class="btn btn-secondary apply-btn" data-listing-id="${l.id}" data-listing-name="${l.name}">Apply to take this over →</a>
+      </div>
+    `).join('');
+  }
+  renderListings();
+
+  document.getElementById('listingsGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.apply-btn');
+    if (!btn) return;
+    e.preventDefault();
+    document.getElementById('applyingForField').value = btn.dataset.listingName;
+    document.getElementById('applyingForLabel').textContent = btn.dataset.listingName;
+    document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ---- MODAL ---- */
+  const torchModal = document.getElementById('torchModal');
+  const takeTorchBtn = document.getElementById('takeTorchBtn');
+  const modalClose = document.getElementById('modalClose');
+  const modalChoices = document.getElementById('modalChoices');
+  const modalBrowseBtn = document.getElementById('modalBrowseBtn');
+  const modalIdeaBtn = document.getElementById('modalIdeaBtn');
+  const modalIdeaArea = document.getElementById('modalIdeaArea');
+  const ideaText = document.getElementById('ideaText');
+  const ideaSubmitBtn = document.getElementById('ideaSubmitBtn');
+  const ideaResults = document.getElementById('ideaResults');
+
+  function openModal() {
+    torchModal.classList.remove('hidden');
+    modalChoices.classList.remove('hidden');
+    modalIdeaArea.classList.add('hidden');
+    ideaResults.innerHTML = '';
+    ideaText.value = '';
+  }
+  function closeModal() { torchModal.classList.add('hidden'); }
+
+  takeTorchBtn.addEventListener('click', openModal);
+  modalClose.addEventListener('click', closeModal);
+  torchModal.addEventListener('click', (e) => { if (e.target === torchModal) closeModal(); });
+
+  modalBrowseBtn.addEventListener('click', () => {
+    closeModal();
+    document.getElementById('browse').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  modalIdeaBtn.addEventListener('click', () => {
+    modalChoices.classList.add('hidden');
+    modalIdeaArea.classList.remove('hidden');
+    ideaText.focus();
+  });
+
+  /* ---- MATCHING ----
+     Lightweight keyword/concept matcher — runs entirely in the browser.
+     No external AI call: a public static site can't safely hold an API key,
+     since anyone could view the page source and take it. This mimics the
+     same end result (surfacing a relevant or extendable project) using a
+     simple scoring pass over each listing's keywords/description. */
+  function scoreListing(inputWords, listing) {
+    const haystack = (listing.cause + ' ' + listing.desc + ' ' + listing.keywords.join(' ')).toLowerCase();
+    let score = 0;
+    inputWords.forEach(w => {
+      if (w.length < 3) return;
+      if (haystack.includes(w)) score += 1;
+    });
+    return score;
+  }
+
+  ideaSubmitBtn.addEventListener('click', () => {
+    const raw = ideaText.value.trim();
+    if (!raw) { ideaText.focus(); return; }
+    const inputWords = raw.toLowerCase().match(/[a-z]+/g) || [];
+
+    if (LISTINGS.length === 0) {
+      ideaResults.innerHTML = `<div class="idea-result"><p>There's nothing listed yet — check back soon, or consider passing on a project of your own once you graduate.</p></div>`;
+      return;
+    }
+
+    const scored = LISTINGS.map(l => ({ listing: l, score: scoreListing(inputWords, l) }))
+                            .sort((a, b) => b.score - a.score);
+
+    ideaResults.innerHTML = scored.map(({ listing, score }) => {
+      const fitNote = score >= 2
+        ? "Strong fit"
+        : score === 1
+          ? "Possible fit"
+          : "No exact match yet — but here's a project you could build this into";
+      return `
+        <div class="idea-result">
+          <span class="fit-note">${fitNote}</span>
+          <h4>${listing.name}</h4>
+          <p>${listing.desc}</p>
+          <a href="#listing-${listing.id}" class="view-link" data-listing-id="${listing.id}">View this project →</a>
+        </div>
+      `;
+    }).join('');
+
+    ideaResults.querySelectorAll('.view-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal();
+        const target = document.getElementById('listing-' + link.dataset.listingId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.classList.add('highlight');
+          setTimeout(() => target.classList.remove('highlight'), 2200);
+        }
+      });
+    });
+  });
 </script>
 
 </body>
