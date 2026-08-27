@@ -676,7 +676,7 @@
   // with your own personal address (since your SMTP provider's sandbox can only
   // deliver to that address until a sending domain is verified). Set back to
   // false before this goes live for real users.
-  const TESTING_ALLOW_PERSONAL_EMAIL = true;
+  const TESTING_ALLOW_PERSONAL_EMAIL = false;
   function looksLikeSchoolEmail(email) {
     if (TESTING_ALLOW_PERSONAL_EMAIL) return true;
     const domain = (email.split('@')[1] || '').toLowerCase().trim();
