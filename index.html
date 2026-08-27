@@ -326,13 +326,17 @@
 
     <div id="browseGate" class="browse-gate">
       <h3>Verify your school email to browse</h3>
-      <p>Relay is exclusive to students right now. Enter your school email and we'll send you a sign-in link — no password needed.</p>
-      <div class="gate-form">
+      <p>Relay is exclusive to students right now. Enter your school email and we'll send you a 6-digit code — no password needed.</p>
+      <div class="gate-form" id="gateEmailStep">
         <input type="email" id="gateEmail" placeholder="you@yourschool.edu">
-        <button id="gateSendBtn" class="btn btn-primary">Send sign-in link</button>
+        <button id="gateSendBtn" class="btn btn-primary">Send code</button>
+      </div>
+      <div class="gate-form hidden" id="gateCodeStep">
+        <input type="text" id="gateCode" placeholder="6-digit code" inputmode="numeric" maxlength="6">
+        <button id="gateVerifyBtn" class="btn btn-primary">Verify</button>
       </div>
       <p id="gateError" class="gate-error hidden"></p>
-      <p id="gateSent" class="gate-sent hidden">Check your email — click the link to continue. You can close this tab.</p>
+      <p id="gateSent" class="gate-sent hidden">Code sent — check your email and enter it above. Didn't get it? <a href="#" id="gateResend">Resend</a>.</p>
     </div>
 
     <div id="browseContent" class="hidden">
@@ -653,17 +657,34 @@
 
   const browseGate = document.getElementById('browseGate');
   const browseContent = document.getElementById('browseContent');
+  const gateEmailStep = document.getElementById('gateEmailStep');
+  const gateCodeStep = document.getElementById('gateCodeStep');
   const gateEmail = document.getElementById('gateEmail');
+  const gateCode = document.getElementById('gateCode');
   const gateSendBtn = document.getElementById('gateSendBtn');
+  const gateVerifyBtn = document.getElementById('gateVerifyBtn');
+  const gateResend = document.getElementById('gateResend');
   const gateError = document.getElementById('gateError');
   const gateSent = document.getElementById('gateSent');
   const signedInEmail = document.getElementById('signedInEmail');
   const signOutLink = document.getElementById('signOutLink');
 
+  let pendingEmail = '';
+
   function showGateError(msg) {
     gateError.textContent = msg;
     gateError.classList.remove('hidden');
     gateSent.classList.add('hidden');
+  }
+
+  function resetGateToEmailStep() {
+    gateEmailStep.classList.remove('hidden');
+    gateCodeStep.classList.add('hidden');
+    gateError.classList.add('hidden');
+    gateSent.classList.add('hidden');
+    gateEmail.value = '';
+    gateCode.value = '';
+    pendingEmail = '';
   }
 
   function renderAuthState(session) {
@@ -686,7 +707,7 @@
   sb.auth.getSession().then(({ data }) => renderAuthState(data.session));
   sb.auth.onAuthStateChange((_event, session) => renderAuthState(session));
 
-  gateSendBtn.addEventListener('click', async () => {
+  async function sendCode() {
     const email = gateEmail.value.trim();
     gateError.classList.add('hidden');
     gateSent.classList.add('hidden');
@@ -699,26 +720,46 @@
 
     gateSendBtn.disabled = true;
     gateSendBtn.textContent = 'Sending…';
-    const { error } = await sb.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.origin + window.location.pathname }
-    });
+    const { error } = await sb.auth.signInWithOtp({ email });
     gateSendBtn.disabled = false;
-    gateSendBtn.textContent = 'Send sign-in link';
+    gateSendBtn.textContent = 'Send code';
 
     if (error) {
       showGateError('Something went wrong sending that email — please try again.');
     } else {
+      pendingEmail = email;
       gateSent.classList.remove('hidden');
+      gateEmailStep.classList.add('hidden');
+      gateCodeStep.classList.remove('hidden');
+      gateCode.focus();
     }
+  }
+
+  gateSendBtn.addEventListener('click', sendCode);
+  gateResend.addEventListener('click', (e) => { e.preventDefault(); sendCode(); });
+
+  gateVerifyBtn.addEventListener('click', async () => {
+    const code = gateCode.value.trim();
+    gateError.classList.add('hidden');
+
+    if (!code) { showGateError('Enter the code from your email.'); return; }
+
+    gateVerifyBtn.disabled = true;
+    gateVerifyBtn.textContent = 'Verifying…';
+    const { error } = await sb.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' });
+    gateVerifyBtn.disabled = false;
+    gateVerifyBtn.textContent = 'Verify';
+
+    if (error) {
+      showGateError('That code didn\'t work — check for typos, or resend a new one.');
+    }
+    // On success, onAuthStateChange fires automatically and renderAuthState() takes over.
   });
 
   signOutLink.addEventListener('click', async (e) => {
     e.preventDefault();
     await sb.auth.signOut();
-    gateEmail.value = '';
-    gateError.classList.add('hidden');
-    gateSent.classList.add('hidden');
+    resetGateToEmailStep();
   });
 
   const menuBtn = document.getElementById('menuBtn');
