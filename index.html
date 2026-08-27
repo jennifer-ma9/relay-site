@@ -99,6 +99,29 @@
   .section-head p{ margin-top:14px; font-size:1.02rem; line-height:1.6; color:var(--muted); }
   .center{ text-align:center; margin-left:auto; margin-right:auto; }
 
+  /* DORMANT CLUBS */
+  .dormant-clubs-grid{ display:grid; gap:22px; }
+  .dormant-club-card{
+    border:1px solid var(--line); border-radius:8px; padding:28px; background:#fff;
+  }
+  .dormant-club-card h3{ font-size:1.2rem; margin-bottom:4px; }
+  .dormant-club-meta{ font-size:0.85rem; color:var(--muted); margin-bottom:18px; }
+  .dormant-club-card .desc{ font-size:0.93rem; line-height:1.6; color:var(--muted); margin-bottom:18px; }
+  .dormancy-reasons{ margin:0 0 18px; padding-left:20px; font-size:0.92rem; color:var(--ink); }
+  .dormancy-reasons li{ margin-bottom:4px; }
+  .club-resources{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
+  .club-resource-link{
+    font-size:0.85rem; font-weight:600; padding:7px 14px; border-radius:6px;
+    background:var(--paper-dim); border:1px solid var(--line); text-decoration:none; color:var(--ink);
+  }
+  .club-resource-link:hover{ border-color:var(--moss); }
+  .other-clubs-list{ display:flex; flex-wrap:wrap; gap:10px; }
+  .other-club-pill{
+    font-size:0.85rem; padding:8px 16px; border-radius:8px; background:#fff;
+    border:1px solid var(--line); color:var(--muted); opacity:0.85;
+  }
+  .other-club-pill strong{ color:var(--ink); font-weight:600; }
+
   /* PARTNER SCHOOLS */
   .partner-schools-list{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
   .partner-school-pill{
@@ -361,6 +384,27 @@
         <a href="#submit" class="btn btn-primary">Pass on your project</a>
       </div>
       <p class="signed-in-as">Signed in as <strong id="signedInEmail"></strong> · <a href="#" id="signOutLink">Sign out</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="dormantClubs" class="section-alt hidden">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Dormant clubs</span>
+      <h2 id="dormantClubsHeading">Clubs at your school waiting for a new leader</h2>
+      <p>These clubs were officially chartered, then went inactive. Everything the last leaders left behind is right here.</p>
+    </div>
+
+    <div id="ownSchoolClubs" class="dormant-clubs-grid"></div>
+    <div id="noOwnSchoolClubs" class="hidden" style="color:var(--muted); font-size:0.95rem;">
+      No dormant clubs listed at your school yet.
+    </div>
+
+    <div id="otherSchoolsWrap" class="hidden" style="margin-top:56px;">
+      <h3 style="font-size:1.05rem; font-weight:600; margin-bottom:18px;">At other schools</h3>
+      <p style="font-size:0.9rem; color:var(--muted); margin-bottom:20px;">Visible for reference — only students verified at the matching school can view full details or apply.</p>
+      <div id="otherSchoolClubs" class="other-clubs-list"></div>
     </div>
   </div>
 </section>
@@ -723,13 +767,16 @@
       browseContent.classList.remove('hidden');
       signedInEmail.textContent = email;
       renderListings();
+      loadDormantClubs(email);
     } else if (email) {
       browseContent.classList.add('hidden');
       browseGate.classList.remove('hidden');
+      document.getElementById('dormantClubs').classList.add('hidden');
       showGateError('That email isn\'t recognized as a school email. Please sign out and try again with your school address.');
     } else {
       browseContent.classList.add('hidden');
       browseGate.classList.remove('hidden');
+      document.getElementById('dormantClubs').classList.add('hidden');
     }
   }
 
@@ -841,10 +888,13 @@
     schoolNameHidden.value = schoolOtherInput.value;
   });
 
-  (async function loadSchools() {
+  let schoolsCache = [];
+  const schoolsLoadedPromise = (async function loadSchools() {
     try {
-      const { data, error } = await sb.from('schools').select('name').order('name');
-      if (error || !data || data.length === 0) return;
+      const { data, error } = await sb.from('schools').select('id, name, domain').order('name');
+      if (error || !data) return;
+      schoolsCache = data;
+      if (data.length === 0) return;
 
       data.forEach(school => {
         const opt = document.createElement('option');
@@ -861,6 +911,88 @@
       console.error('loadSchools failed:', err);
     }
   })();
+
+  /* ---- DORMANT CLUBS ---- */
+  function renderFullClubCard(c) {
+    const reasons = Array.isArray(c.dormancy_reasons) ? c.dormancy_reasons : [];
+    const resources = [
+      c.resource_attendance_url ? { label: 'Attendance & logistics', url: c.resource_attendance_url } : null,
+      c.resource_service_projects_url ? { label: 'Service projects', url: c.resource_service_projects_url } : null,
+      c.resource_presentations_url ? { label: 'Weekly presentations', url: c.resource_presentations_url } : null,
+      c.resource_meeting_notes_url ? { label: 'Meeting notes', url: c.resource_meeting_notes_url } : null,
+    ].filter(Boolean);
+
+    return `
+      <div class="dormant-club-card">
+        <h3>${c.name}</h3>
+        <div class="dormant-club-meta">
+          ${c.founded_year ? `Founded ${c.founded_year}` : ''}${c.faculty_advisor_name ? ` · Faculty advisor: ${c.faculty_advisor_name}` : ''}
+        </div>
+        ${c.description ? `<p class="desc">${c.description}</p>` : ''}
+        ${reasons.length ? `
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:8px;">Why it went dormant:</div>
+          <ul class="dormancy-reasons">${reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+        ` : ''}
+        ${resources.length ? `
+          <div class="club-resources">
+            ${resources.map(r => `<a href="${r.url}" target="_blank" rel="noopener" class="club-resource-link">${r.label} →</a>`).join('')}
+          </div>
+        ` : ''}
+        <button class="btn btn-primary revive-btn" data-club-name="${c.name}">Interested in reviving this?</button>
+      </div>
+    `;
+  }
+
+  async function loadDormantClubs(email) {
+    await schoolsLoadedPromise;
+    const domain = (email.split('@')[1] || '').toLowerCase().trim();
+    const matchedSchool = schoolsCache.find(s => s.domain && s.domain.toLowerCase() === domain);
+
+    const dormantSection = document.getElementById('dormantClubs');
+    const heading = document.getElementById('dormantClubsHeading');
+    const ownGrid = document.getElementById('ownSchoolClubs');
+    const noOwn = document.getElementById('noOwnSchoolClubs');
+    const otherWrap = document.getElementById('otherSchoolsWrap');
+    const otherList = document.getElementById('otherSchoolClubs');
+
+    try {
+      const { data, error } = await sb.from('dormant_clubs').select('*, school:schools(id, name)');
+      if (error) { console.error('loadDormantClubs failed:', error); return; }
+      const clubs = data || [];
+
+      dormantSection.classList.remove('hidden');
+      heading.textContent = matchedSchool ? `Dormant clubs at ${matchedSchool.name}` : 'Dormant clubs';
+
+      const ownClubs = matchedSchool ? clubs.filter(c => c.school_id === matchedSchool.id) : [];
+      const otherClubs = matchedSchool ? clubs.filter(c => c.school_id !== matchedSchool.id) : clubs;
+
+      if (ownClubs.length === 0) {
+        ownGrid.innerHTML = '';
+        noOwn.classList.remove('hidden');
+      } else {
+        noOwn.classList.add('hidden');
+        ownGrid.innerHTML = ownClubs.map(renderFullClubCard).join('');
+        ownGrid.querySelectorAll('.revive-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.getElementById('applyingForField').value = btn.dataset.clubName;
+            document.getElementById('applyingForLabel').textContent = btn.dataset.clubName;
+            document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      }
+
+      if (otherClubs.length > 0) {
+        otherWrap.classList.remove('hidden');
+        otherList.innerHTML = otherClubs.map(c =>
+          `<span class="other-club-pill"><strong>${c.name}</strong> at ${c.school ? c.school.name : 'another school'}</span>`
+        ).join('');
+      } else {
+        otherWrap.classList.add('hidden');
+      }
+    } catch (err) {
+      console.error('loadDormantClubs failed:', err);
+    }
+  }
 
   const applyForm = document.getElementById('applyForm');
   const applySuccess = document.getElementById('applySuccess');
