@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relay — Keep the Torch Alive</title>
+<title>Relay — A second life for good ideas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#14202E;
@@ -16,8 +16,8 @@
     --brass-dim:#23433B;
     --moss:#3D7A6C;
     --rust:#23433B;
-    --line:rgba(20,32,46,0.16);
-    --muted:#445059;
+    --line:rgba(20,32,46,0.12);
+    --muted:#5B6670;
     --btn-border:#14202E;
     --btn-ink:#F4EEE1;
   }
@@ -27,16 +27,15 @@
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:'Inter', sans-serif;
+    font-family:'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.display{
-    font-family:'Cormorant Garamond', serif;
-    font-weight:600;
-    letter-spacing:-0.01em;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight:700;
+    letter-spacing:-0.02em;
     margin:0;
   }
-  .mono{ font-family:'Inter', sans-serif; }
   a{ color:inherit; }
   .wrap{ max-width:1100px; margin:0 auto; padding:0 32px; }
   @media (max-width:640px){ .wrap{ padding:0 20px; } }
@@ -44,175 +43,172 @@
   /* NAV */
   header{
     position:sticky; top:0; z-index:50;
-    background:rgba(35,67,59,0.94);
+    background:rgba(244,238,225,0.92);
     backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
   }
   nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
-  .brand{ display:flex; align-items:center; gap:10px; font-size:1.15rem; color:var(--paper); }
-  .brand-mark{ width:20px; height:20px; }
-  .nav-links{ display:flex; align-items:center; gap:36px; font-size:0.92rem; }
-  .nav-links a{ text-decoration:none; color:var(--paper); opacity:0.8; transition:opacity .15s; }
+  .brand{ display:flex; align-items:center; gap:8px; font-size:1.1rem; font-weight:700; color:var(--ink); letter-spacing:-0.02em; }
+  .nav-links{ display:flex; align-items:center; gap:32px; font-size:0.92rem; }
+  .nav-links a{ text-decoration:none; color:var(--ink); opacity:0.72; transition:opacity .15s; }
   .nav-links a:hover{ opacity:1; }
-  .nav-links a.active-page{ opacity:1; font-weight:600; }
+  .nav-links a.nav-cta{
+    padding:10px 20px; border-radius:6px; background:var(--ink); color:var(--paper) !important;
+    opacity:1 !important; font-weight:600;
+  }
   .menu-btn{ display:none; background:none; border:none; cursor:pointer; padding:6px; }
-  .menu-btn span{ display:block; width:22px; height:2px; background:var(--paper); margin:5px 0; }
+  .menu-btn span{ display:block; width:20px; height:2px; background:var(--ink); margin:5px 0; }
   @media (max-width:800px){
-    .nav-links{ position:fixed; inset:64px 0 auto 0; background:var(--sienna); flex-direction:column;
-      align-items:flex-start; padding:24px 20px 28px; border-bottom:1px solid var(--line);
-      gap:20px; transform:translateY(-10px); opacity:0; pointer-events:none; transition:all .2s; }
+    .nav-links{ position:fixed; inset:60px 0 auto 0; background:var(--paper); flex-direction:column;
+      align-items:flex-start; padding:20px 20px 24px; border-bottom:1px solid var(--line);
+      gap:18px; transform:translateY(-8px); opacity:0; pointer-events:none; transition:all .2s; }
     .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
     .menu-btn{ display:block; }
   }
 
-  /* TORCH DIVIDER */
-  .torch-divider{ background:var(--sienna); padding:22px 0; display:flex; justify-content:center; }
-  .torch-divider svg{ animation:torchFlicker 2.6s ease-in-out infinite; }
-  @keyframes torchFlicker{
-    0%,100%{ filter:brightness(1) drop-shadow(0 0 5px rgba(232,162,74,0.4)); }
-    50%{ filter:brightness(1.18) drop-shadow(0 0 16px rgba(232,162,74,0.65)); }
-  }
-
   /* HERO */
-  .hero{
-    padding:108px 0 100px; color:var(--paper-dim); background:#23433B;
-    position:relative; overflow:hidden;
-  }
-  .hero .wrap{ position:relative; z-index:2; }
-  .hero-glow{
-    position:absolute; top:50%; right:-90px; transform:translateY(-50%);
-    width:460px; height:460px; z-index:1; cursor:pointer;
-  }
-  .hero-glow svg{
-    display:block; transition:filter .4s ease, transform .4s ease;
-    filter:brightness(1) drop-shadow(0 0 0 rgba(244,238,225,0));
-  }
-  .hero-glow:hover svg{
-    filter:brightness(1.4) drop-shadow(0 0 34px rgba(244,238,225,0.55));
-    transform:scale(1.045);
-  }
-  .flame-core{ transition:opacity .4s ease; }
-  .hero-glow:hover .flame-core{ opacity:1; }
-  @media (max-width:960px){ .hero-glow{ width:320px; height:320px; right:-140px; opacity:0.7; } }
-  @media (max-width:640px){ .hero-glow{ display:none; } }
-  .rule{ width:64px; height:2px; background:#A9CFC2; margin:0 0 30px; }
+  .hero{ padding:120px 0 96px; text-align:center; }
+  .hero .wrap{ max-width:760px; }
   .eyebrow{
-    font-family:'Inter', sans-serif; font-size:0.78rem; letter-spacing:0.22em; text-transform:uppercase;
-    color:var(--brass-dim); margin-bottom:22px; font-weight:600; display:block;
+    font-size:0.82rem; letter-spacing:0.04em; color:var(--brass-dim);
+    margin-bottom:20px; font-weight:600; display:block;
   }
-  .hero .eyebrow{ color:#A9CFC2; }
   .hero h1{
-    font-family:'Cormorant Garamond', serif; font-style:italic; font-weight:600;
-    font-size:clamp(2.4rem,5.4vw,4.2rem); line-height:1.08; max-width:700px; color:var(--paper-dim);
+    font-size:clamp(2.4rem,5.6vw,3.8rem); line-height:1.08; letter-spacing:-0.03em; color:var(--ink);
   }
-  .hero p.lede{ font-size:1.08rem; line-height:1.7; max-width:520px; margin:26px 0 38px; color:rgba(244,238,225,0.75); }
-  .btn-row{ display:flex; gap:16px; flex-wrap:wrap; }
+  .hero p.lede{
+    font-size:1.15rem; line-height:1.6; max-width:560px; margin:22px auto 36px; color:var(--muted);
+  }
+  .btn-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
   .btn{
-    padding:13px 24px; border-radius:2px; font-weight:600; font-size:0.95rem; text-decoration:none;
-    display:inline-block; transition:transform .15s ease, box-shadow .15s ease; border:none; cursor:pointer; font-family:'Inter', sans-serif;
+    padding:14px 26px; border-radius:8px; font-weight:600; font-size:0.95rem; text-decoration:none;
+    display:inline-block; transition:transform .12s ease, opacity .12s ease; border:none; cursor:pointer;
+    font-family:'Plus Jakarta Sans', sans-serif;
   }
-  .btn-primary{ background:var(--brass); color:var(--btn-ink); }
+  .btn-primary{ background:var(--ink); color:var(--paper); }
   .btn-secondary{ background:transparent; color:var(--ink); border:1px solid var(--btn-border); }
-  .hero .btn-secondary{ color:var(--paper-dim); border:1px solid rgba(244,238,225,0.4); }
-  .btn:hover{ transform:translateY(-2px); }
-  .btn-large{ padding:18px 32px; font-size:1.05rem; }
+  .btn:hover{ opacity:0.85; }
+  .btn-large{ padding:17px 30px; font-size:1.02rem; }
 
   /* SECTION shared */
-  section{ padding:76px 0; border-top:1px solid var(--line); }
+  section{ padding:80px 0; border-top:1px solid var(--line); }
   .section-alt{ background:var(--paper-dim); }
-  .section-head{ max-width:640px; margin-bottom:46px; }
-  .section-head .eyebrow{ margin-bottom:14px; }
-  .section-head h2{ font-size:clamp(1.8rem,3.4vw,2.4rem); line-height:1.15; }
-  .section-head p{ margin-top:16px; font-size:1.03rem; line-height:1.6; color:var(--muted); }
+  .section-head{ max-width:640px; margin-bottom:44px; }
+  .section-head .eyebrow{ margin-bottom:12px; }
+  .section-head h2{ font-size:clamp(1.7rem,3.2vw,2.2rem); line-height:1.2; letter-spacing:-0.02em; }
+  .section-head p{ margin-top:14px; font-size:1.02rem; line-height:1.6; color:var(--muted); }
+  .center{ text-align:center; margin-left:auto; margin-right:auto; }
 
   /* HOW IT WORKS */
   #how{ background:var(--sienna); }
   #how .section-head .eyebrow{ color:#A9CFC2; }
   #how .section-head h2{ color:var(--paper-dim); }
-  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
   @media (max-width:800px){ .steps{ grid-template-columns:1fr; } }
   .steps.two-col{ grid-template-columns:1fr 1fr; }
   @media (max-width:640px){ .steps.two-col{ grid-template-columns:1fr; } }
-  .step{ border:1px solid var(--line); border-radius:4px; padding:28px 24px; background:var(--paper-dim); }
-  .step .idx{ font-family:'Inter', sans-serif; font-size:0.78rem; letter-spacing:0.04em; color:var(--brass-dim); display:block; margin-bottom:14px; font-weight:600; }
-  .step h3{ font-size:1.15rem; margin-bottom:10px; }
+  .step{ border:1px solid var(--line); border-radius:8px; padding:26px 22px; background:var(--paper-dim); }
+  .step .idx{ font-size:0.78rem; letter-spacing:0.02em; color:var(--brass-dim); display:block; margin-bottom:12px; font-weight:700; }
+  .step h3{ font-size:1.1rem; margin-bottom:8px; font-weight:600; }
   .step p{ font-size:0.93rem; line-height:1.6; color:var(--muted); }
 
-  #how .step{ background:rgba(244,238,225,0.14); border-color:rgba(244,238,225,0.3); }
+  #how .step{ background:rgba(244,238,225,0.1); border-color:rgba(244,238,225,0.22); }
   #how .step .idx{ color:var(--paper-dim); }
   #how .step h3{ color:var(--paper-dim); }
-  #how .step p{ color:rgba(244,238,225,0.8); }
+  #how .step p{ color:rgba(244,238,225,0.75); }
 
   /* FORK (choose your path) */
-  .fork{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+  .fork{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:8px; }
   @media (max-width:700px){ .fork{ grid-template-columns:1fr; } }
   .fork-option{
-    text-align:left; border:1px solid var(--line); border-radius:4px; padding:24px 22px;
-    background:#fff; cursor:pointer; transition:border-color .15s, transform .15s;
-    font-family:inherit;
+    text-align:left; border:1px solid var(--line); border-radius:8px; padding:22px 20px;
+    background:#fff; cursor:pointer; transition:border-color .15s; font-family:inherit;
   }
-  .fork-option:hover{ transform:translateY(-2px); }
   .fork-option.selected{ border-color:var(--moss); border-width:2px; }
-  .fork-option h3{ font-size:1.05rem; margin-bottom:6px; }
+  .fork-option h3{ font-size:1.02rem; margin-bottom:6px; font-weight:600; }
   .fork-option p{ font-size:0.88rem; color:var(--muted); margin:0; }
   .fork-blurb{
-    margin-top:28px; padding:18px 20px; border-left:3px solid var(--moss);
-    background:rgba(61,122,108,0.06); font-size:0.95rem; line-height:1.6;
+    margin-top:26px; padding:18px 20px; border-left:3px solid var(--moss);
+    background:rgba(61,122,108,0.06); font-size:0.95rem; line-height:1.6; border-radius:0 6px 6px 0;
   }
 
   /* BROWSE — empty state */
   .empty-state{
-    border:1px dashed var(--line); border-radius:4px; padding:48px 32px; text-align:center;
+    border:1px dashed var(--line); border-radius:8px; padding:44px 30px; text-align:center;
     max-width:480px; margin:0 auto;
   }
-  .empty-state h3{ font-size:1.2rem; margin-bottom:10px; }
-  .empty-state p{ font-size:0.95rem; color:var(--muted); margin-bottom:22px; line-height:1.6; }
+  .empty-state h3{ font-size:1.15rem; margin-bottom:10px; font-weight:600; }
+  .empty-state p{ font-size:0.95rem; color:var(--muted); margin-bottom:20px; line-height:1.6; }
 
   /* BROWSE — listing card */
-  .listings{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-bottom:32px; }
+  .listings{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:28px; }
   @media (max-width:900px){ .listings{ grid-template-columns:1fr 1fr; } }
   @media (max-width:640px){ .listings{ grid-template-columns:1fr; } }
   .listing-card{
-    border:1px solid var(--line); border-radius:4px; padding:22px; background:#fff;
-    display:flex; flex-direction:column; gap:10px;
+    border:1px solid var(--line); border-radius:8px; padding:22px; background:#fff;
+    display:flex; flex-direction:column; gap:9px;
   }
-  .listing-card .tag{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; font-family:'Inter', sans-serif; font-weight:600; color:var(--brass-dim); }
-  .listing-card h3{ font-size:1.08rem; }
+  .listing-card .tag{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; font-weight:700; color:var(--brass-dim); }
+  .listing-card h3{ font-size:1.05rem; font-weight:600; }
   .listing-card .meta{ font-size:0.82rem; color:var(--muted); }
   .listing-card .desc{ font-size:0.88rem; line-height:1.55; color:var(--muted); }
   .listing-card .apply-btn{ margin-top:6px; align-self:flex-start; }
   .hidden{ display:none !important; }
 
   footer{ padding:44px 0 40px; background:var(--sienna); }
-  .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.85rem; color:rgba(244,238,225,0.85); }
+  .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.85rem; color:rgba(244,238,225,0.8); }
   .foot-grid a{ text-decoration:none; color:var(--paper); }
-  .foot-links{ display:flex; gap:24px; flex-wrap:wrap; }
+  .foot-links{ display:flex; gap:22px; flex-wrap:wrap; }
 
   /* SUBMISSION FORM */
   .submit-form{ max-width:760px; }
-  .form-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-bottom:20px; }
+  .form-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:18px; }
   @media (max-width:800px){ .form-grid{ grid-template-columns:1fr 1fr; } }
   @media (max-width:560px){ .form-grid{ grid-template-columns:1fr; } }
   .field{ display:flex; flex-direction:column; gap:7px; font-size:0.85rem; font-weight:600; }
-  .field-wide{ grid-column:1/-1; margin-bottom:20px; }
+  .field-wide{ grid-column:1/-1; margin-bottom:18px; }
   .field input, .field select, .field textarea{
-    font-family:'Inter', sans-serif; font-size:0.92rem; font-weight:400;
-    padding:11px 12px; border:1px solid var(--line); border-radius:3px; background:#fff; color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif; font-size:0.92rem; font-weight:400;
+    padding:11px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink);
     resize:vertical;
   }
   .field input:focus, .field select:focus, .field textarea:focus{
     outline:2px solid var(--moss); outline-offset:1px; border-color:var(--moss);
   }
-  .radio-row{ display:flex; gap:24px; margin-top:2px; }
+  .radio-row{ display:flex; gap:22px; margin-top:2px; }
   .radio-option{ display:flex; align-items:center; gap:8px; font-weight:500; font-size:0.92rem; cursor:pointer; }
   .radio-option input{ width:16px; height:16px; accent-color:var(--moss); }
   .form-note{ font-size:0.8rem; color:var(--muted); margin-top:14px; }
   .form-success{
-    max-width:560px; padding:26px 28px; border:1px solid var(--moss); border-radius:4px;
+    max-width:560px; padding:24px 26px; border:1px solid var(--moss); border-radius:8px;
     background:rgba(61,122,108,0.08);
   }
-  .form-success h3{ font-size:1.15rem; margin-bottom:8px; }
+  .form-success h3{ font-size:1.1rem; margin-bottom:8px; font-weight:600; }
   .form-success p{ font-size:0.92rem; line-height:1.6; color:var(--muted); }
+
+  /* FAQ */
+  #faq{ background:var(--paper); }
+  .faq-list{ max-width:760px; }
+  .faq-item{ border-bottom:1px solid var(--line); padding:22px 0; }
+  .faq-item:first-child{ border-top:1px solid var(--line); }
+  .faq-item summary{
+    cursor:pointer; font-weight:600; font-size:1.04rem; list-style:none;
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{
+    content:'+'; font-size:1.4rem; font-weight:400; color:var(--brass-dim); flex-shrink:0;
+    transition:transform .2s ease; width:20px; text-align:center;
+  }
+  .faq-item[open] summary::after{ content:'\2212'; }
+  .faq-answer{ margin-top:16px; font-size:0.95rem; line-height:1.75; color:var(--muted); max-width:640px; }
+  .faq-answer p{ margin:0 0 14px; }
+  .faq-answer p:last-child{ margin-bottom:0; }
+
+  /* FINAL CTA */
+  .final-cta{ background:var(--sienna); text-align:center; }
+  .final-cta h2{ color:var(--paper-dim); font-size:clamp(1.7rem,3.4vw,2.3rem); }
+  .final-cta p{ color:rgba(244,238,225,0.75); font-size:1.05rem; margin:16px 0 32px; }
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
@@ -225,23 +221,23 @@
     display:flex; align-items:center; justify-content:center; padding:20px;
   }
   .modal-box{
-    background:var(--paper); border-radius:6px; padding:36px 32px; max-width:560px; width:100%;
-    max-height:85vh; overflow-y:auto; position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,0.4);
+    background:var(--paper); border-radius:10px; padding:34px 30px; max-width:560px; width:100%;
+    max-height:85vh; overflow-y:auto; position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,0.35);
   }
   .modal-close{
     position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer;
     font-size:1.4rem; line-height:1; color:var(--ink); opacity:0.6; padding:4px;
   }
   .modal-close:hover{ opacity:1; }
-  .modal-box h3{ font-size:1.3rem; margin-bottom:20px; padding-right:20px; }
+  .modal-box h3{ font-size:1.25rem; margin-bottom:20px; padding-right:20px; font-weight:600; }
   .modal-choices{ display:flex; flex-direction:column; gap:12px; }
   .idea-result{
-    border:1px solid var(--line); border-radius:4px; padding:18px; margin-top:14px; background:#fff;
+    border:1px solid var(--line); border-radius:8px; padding:18px; margin-top:14px; background:#fff;
   }
   .idea-result .fit-note{
     font-size:0.82rem; font-weight:600; color:var(--moss); margin-bottom:8px; display:block;
   }
-  .idea-result h4{ font-size:1.05rem; font-family:'Cormorant Garamond',serif; font-weight:600; margin-bottom:4px; }
+  .idea-result h4{ font-size:1.02rem; font-weight:600; margin-bottom:4px; }
   .idea-result p{ font-size:0.88rem; color:var(--muted); line-height:1.5; margin:6px 0 10px; }
   .idea-result a.view-link{ font-size:0.85rem; font-weight:600; text-decoration:none; border-bottom:1px solid var(--ink); }
   .listing-card.highlight{ border-color:var(--moss); border-width:2px; box-shadow:0 0 0 4px rgba(61,122,108,0.12); }
@@ -251,99 +247,33 @@
 
 <header>
   <nav class="wrap">
-    <div class="brand">
-      <svg class="brand-mark" viewBox="0 0 24 24" fill="none">
-        <path d="M12 21V13" stroke="#F4EEE1" stroke-width="2" stroke-linecap="round"/>
-        <path d="M9 13c-0.7-1.2-1-2.6-1-4c0-3.5 2.7-6.3 4-7c1.3 0.7 4 3.5 4 7c0 1.4-0.3 2.8-1 4" stroke="#3D7A6C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M9 13h6" stroke="#F4EEE1" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      <strong>Relay</strong>
-    </div>
+    <div class="brand">Relay</div>
     <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
       <a href="about.html">About Relay</a>
       <a href="#how">How it works</a>
       <a href="#browse">Browse projects</a>
-      <a href="#submit" class="nav-cta" style="padding:10px 18px; border-radius:2px; background:var(--ink); color:var(--paper) !important; opacity:1 !important; font-weight:600;">Pass the Torch</a>
+      <a href="#faq">FAQ</a>
+      <a href="#submit" class="nav-cta">Pass the Torch</a>
     </div>
   </nav>
 </header>
 
-<div class="torch-divider">
-  <svg viewBox="0 0 100 140" width="60" height="84" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="torchGlowSmall" cx="50%" cy="35%" r="65%">
-        <stop offset="0%" stop-color="#FBE7B8" stop-opacity="0.75"/>
-        <stop offset="45%" stop-color="#E8A24A" stop-opacity="0.4"/>
-        <stop offset="100%" stop-color="#E8A24A" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <circle cx="50" cy="45" r="50" fill="url(#torchGlowSmall)"/>
-    <!-- handle -->
-    <path d="M43 120 L43 78 Q43 74 47 73 L53 73 Q57 74 57 78 L57 120 Q57 124 53 124 L47 124 Q43 124 43 120 Z" fill="#14202E"/>
-    <!-- grip bindings -->
-    <rect x="42" y="86" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
-    <rect x="42" y="96" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
-    <rect x="42" y="106" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
-    <!-- collar -->
-    <path d="M40 73 L60 73 L56 66 L44 66 Z" fill="#3D7A6C"/>
-    <!-- side flicker tips -->
-    <path d="M40 40 C34 44 31 50 33 56 C34 59 37 60 39 58 C37 54 37 49 40 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M60 40 C66 44 69 50 67 56 C66 59 63 60 61 58 C63 54 63 49 60 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
-    <!-- outer flame outline -->
-    <path d="M50 6 C39 19 32 34 35 47 C36 53 40 57 44 57 C42 50 43 42 47 36 C48 43 52 48 51 56 C56 54 59 49 59 42 C58 29 54 16 50 6 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
-    <!-- mid flame -->
-    <path d="M50 15 C43 25 39 35 41 44 C42 48 44 51 47 51 C46 46 46 40 49 36 C50 41 52 45 51 51 C55 49 57 45 57 40 C56 32 53 23 50 15 Z" fill="#E8A24A" opacity="0.92"/>
-    <!-- inner core -->
-    <path d="M50 27 C47 32 46 37 47 41 C47.5 43 49 44 50 44 C51 44 52.5 43 53 41 C54 37 53 32 50 27 Z" fill="#FDF3D8" opacity="0.95"/>
-  </svg>
-</div>
-
 <section class="hero" style="border-top:none;">
-  <div class="hero-glow">
-    <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="heroGlow" cx="46%" cy="44%" r="55%">
-          <stop offset="0%" stop-color="#E9DFCC" stop-opacity="0.85"/>
-          <stop offset="45%" stop-color="#3D7A6C" stop-opacity="0.32"/>
-          <stop offset="100%" stop-color="#3D7A6C" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <circle cx="230" cy="230" r="220" fill="url(#heroGlow)"/>
-      <circle cx="230" cy="230" r="172" fill="none" stroke="#F4EEE1" stroke-width="3"/>
-      <g transform="translate(155,140) scale(7.5)">
-        <!-- handle -->
-        <path d="M10.3 21.6 L10.3 14.2 Q10.3 13.6 10.9 13.5 L13.1 13.5 Q13.7 13.6 13.7 14.2 L13.7 21.6 Q13.7 22 13.2 22 L10.8 22 Q10.3 22 10.3 21.6 Z" fill="#14202E"/>
-        <!-- grip bindings -->
-        <rect x="10.1" y="15.5" width="3.8" height="0.85" rx="0.3" fill="#3D7A6C"/>
-        <rect x="10.1" y="17.5" width="3.8" height="0.85" rx="0.3" fill="#3D7A6C"/>
-        <rect x="10.1" y="19.5" width="3.8" height="0.85" rx="0.3" fill="#3D7A6C"/>
-        <!-- collar where flame meets handle -->
-        <path d="M9.6 13.6 L14.4 13.6 L13.5 12.5 L10.5 12.5 Z" fill="#3D7A6C"/>
-        <!-- outer flame flicker (outline only) -->
-        <path d="M12 1.2 C9.3 4.6 7.6 8.3 8.4 11.4 C8.7 12.7 9.5 13.5 10.6 13.6 C10.1 12 10.3 10.1 11.2 8.7 C11.5 10.4 12.4 11.6 12.2 13.4 C13.5 13 14.3 11.7 14.2 10.1 C14 7 12.9 3.9 12 1.2 Z" fill="none" stroke="#F4EEE1" stroke-width="0.4" stroke-linejoin="round"/>
-        <!-- mid flame -->
-        <path d="M12 3.6 C10.2 6.1 9.3 8.6 9.8 10.7 C10 11.6 10.6 12.2 11.3 12.3 C11 11.1 11.1 9.7 11.8 8.6 C12 9.9 12.6 10.8 12.4 12.3 C13.2 12 13.7 11.1 13.6 9.9 C13.4 7.6 12.7 5.4 12 3.6 Z" fill="#3D7A6C" opacity="0.88"/>
-        <!-- inner bright core, brightens on hover -->
-        <path class="flame-core" d="M12 6.6 C11.1 7.9 10.8 9.2 11.1 10.3 C11.25 10.8 11.6 11.05 12 11.05 C12.4 11.05 12.75 10.8 12.9 10.3 C13.2 9.2 12.9 7.9 12 6.6 Z" fill="#EDE6D3" opacity="0.88"/>
-      </g>
-    </svg>
-  </div>
   <div class="wrap">
-    <div class="rule"></div>
     <span class="eyebrow">A second life for good ideas</span>
     <h1>Relay the idea, keep the torch alive.</h1>
     <p class="lede">Too many student-led projects end when the students who started them graduate. Relay helps those projects find new leaders and gives them the information they need to keep going.</p>
     <div class="btn-row">
-      <button id="takeTorchBtn" class="btn btn-primary">Take the Torch</button>
-      <a href="#submit" class="btn btn-secondary">Pass the Torch</a>
+      <button id="takeTorchBtn" class="btn btn-primary btn-large">Take the Torch</button>
+      <a href="#submit" class="btn btn-secondary btn-large">Pass the Torch</a>
     </div>
   </div>
 </section>
 
 <section class="section-alt" id="how">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head center">
       <span class="eyebrow">How it works</span>
       <h2>How a handoff works</h2>
     </div>
@@ -562,28 +492,75 @@
   </div>
 </section>
 
-<div class="torch-divider">
-  <svg viewBox="0 0 100 140" width="60" height="84" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="torchGlowSmall2" cx="50%" cy="35%" r="65%">
-        <stop offset="0%" stop-color="#FBE7B8" stop-opacity="0.75"/>
-        <stop offset="45%" stop-color="#E8A24A" stop-opacity="0.4"/>
-        <stop offset="100%" stop-color="#E8A24A" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <circle cx="50" cy="45" r="50" fill="url(#torchGlowSmall2)"/>
-    <path d="M43 120 L43 78 Q43 74 47 73 L53 73 Q57 74 57 78 L57 120 Q57 124 53 124 L47 124 Q43 124 43 120 Z" fill="#14202E"/>
-    <rect x="42" y="86" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
-    <rect x="42" y="96" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
-    <rect x="42" y="106" width="16" height="4" rx="1.4" fill="#3D7A6C"/>
-    <path d="M40 73 L60 73 L56 66 L44 66 Z" fill="#3D7A6C"/>
-    <path d="M40 40 C34 44 31 50 33 56 C34 59 37 60 39 58 C37 54 37 49 40 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M60 40 C66 44 69 50 67 56 C66 59 63 60 61 58 C63 54 63 49 60 45 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M50 6 C39 19 32 34 35 47 C36 53 40 57 44 57 C42 50 43 42 47 36 C48 43 52 48 51 56 C56 54 59 49 59 42 C58 29 54 16 50 6 Z" fill="none" stroke="#F0C98A" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M50 15 C43 25 39 35 41 44 C42 48 44 51 47 51 C46 46 46 40 49 36 C50 41 52 45 51 51 C55 49 57 45 57 40 C56 32 53 23 50 15 Z" fill="#E8A24A" opacity="0.92"/>
-    <path d="M50 27 C47 32 46 37 47 41 C47.5 43 49 44 50 44 C51 44 52.5 43 53 41 C54 37 53 32 50 27 Z" fill="#FDF3D8" opacity="0.95"/>
-  </svg>
-</div>
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="eyebrow">FAQ</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>How can Relay be used by students?</summary>
+        <div class="faq-answer">
+          <p>Relay serves two primary groups of students: those preparing to graduate and pass on projects they have built, and those looking to lead a cause, organization, or initiative that aligns with their interests. Relay connects these students to make the transition between generations more seamless.</p>
+          <p>For incoming leaders, Relay provides access to the practical knowledge needed to get started — from budgets, member counts, and organizational structures to past meeting materials, resources, and examples of successful programming. For outgoing leaders, Relay offers peace of mind that the work they invested in will not simply disappear when they graduate, but can continue under a new generation of leadership.</p>
+          <p>By preserving these connections and institutional knowledge, Relay also creates opportunities for collaboration, mentorship, and networking among student leaders across generations.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>How can Relay be used by schools?</summary>
+        <div class="faq-answer">
+          <p>Relay helps schools streamline and preserve the life cycles of student organizations and initiatives.</p>
+          <p>When a club is first chartered, schools often collect valuable information such as its mission, constitution, budget, membership numbers, and organizational structure. However, when a club becomes inactive, that institutional knowledge can easily become difficult to access — even when the underlying idea remains valuable.</p>
+          <p>For example, a Debate Club may become dormant after several years, only for a new group of students to propose starting a nearly identical organization. If the school's existing club records were preserved on Relay, students could discover the organization's history, resources, and previous structure before creating something from scratch.</p>
+          <p>Schools could also use Relay as a centralized archive for student organizations, allowing administrators and students to identify existing or dormant organizations, preserve institutional knowledge, and build upon previous work rather than repeatedly starting from zero.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What if I want to "found" a club even though a similar club already exists?</summary>
+        <div class="faq-answer">
+          <p>Relay believes that leadership is about more than being the first person to have an idea.</p>
+          <p>If a similar organization already exists — or existed in the past — there may still be meaningful opportunities to take the project in a new direction. Instead of discarding the work of previous students, a new leader can build upon that foundation, introduce their own vision, and create the next chapter of the organization's history.</p>
+          <p>Consider: 2025 — Founded by Maya. 2026 — Expanded to three schools. 2027 — Leadership transferred to Sarah. 2028 — Sarah launched a new mentorship program.</p>
+          <p>Sarah did not technically "found" the organization. But she expanded its reach, introduced a new initiative, and left her own mark on its development. Her leadership and impact are no less meaningful because someone else started the project.</p>
+          <p>Relay therefore treats project lineage as an asset, not a limitation. A project can have multiple generations of leaders, each contributing something distinct to its growth and evolution. Rather than asking "Who founded it?", Relay asks: "What did you do with it?"</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What should I do if the organization I am looking to pass on is school-based?</summary>
+        <div class="faq-answer">
+          <p>If you are open to expanding your organization beyond your school — whether to other schools in your region or to students more broadly — you can create a regular Relay listing and note that the organization originated within a school environment.</p>
+          <p>If you would like to keep the organization exclusively school-based, select your affiliated school when registering. If your school already has a Relay profile, your organization can be connected to its school portal.</p>
+          <p>If your school does not yet have a Relay profile, please contact both Relay and an appropriate school administrator so that we can help establish one.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>What if I can't find an existing project that matches what I want to do?</summary>
+        <div class="faq-answer">
+          <p>That may be a good thing.</p>
+          <p>Relay is designed not only to preserve existing projects, but to help students build new ones. If you have a vision for an initiative that does not yet exist on Relay — or even in your community — it may be an opportunity to create something genuinely new.</p>
+          <p>You can use Relay to develop your idea, find potential collaborators, and build a team around your vision. And when your time with the organization eventually comes to an end, you can pass it forward to the next generation rather than letting the work disappear.</p>
+          <p>Not every idea needs a predecessor. But every great project can have a successor.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap center">
+    <h2>Ready to pass the torch?</h2>
+    <p>Whether you're graduating or just getting started, Relay helps you find what's next.</p>
+    <div class="btn-row">
+      <a href="#submit" class="btn btn-primary btn-large" style="background:var(--paper); color:var(--ink);">Pass the Torch</a>
+      <a href="#browse" class="btn btn-secondary btn-large" style="color:var(--paper-dim); border-color:rgba(244,238,225,0.4);">Take the Torch</a>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="wrap foot-grid">
@@ -592,6 +569,7 @@
       <a href="about.html">About Relay</a>
       <a href="#how">How it works</a>
       <a href="#browse">Browse projects</a>
+      <a href="#faq">FAQ</a>
     </div>
   </div>
 </footer>
