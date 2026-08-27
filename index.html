@@ -649,7 +649,13 @@
     'gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','aol.com',
     'live.com','msn.com','protonmail.com','proton.me','mail.com','yandex.com','gmx.com'
   ];
+  // TEMP TESTING FLAG — set to true only while confirming the email pipeline works
+  // with your own personal address (since your SMTP provider's sandbox can only
+  // deliver to that address until a sending domain is verified). Set back to
+  // false before this goes live for real users.
+  const TESTING_ALLOW_PERSONAL_EMAIL = true;
   function looksLikeSchoolEmail(email) {
+    if (TESTING_ALLOW_PERSONAL_EMAIL) return true;
     const domain = (email.split('@')[1] || '').toLowerCase().trim();
     if (!domain) return false;
     return !PERSONAL_EMAIL_DOMAINS.includes(domain);
