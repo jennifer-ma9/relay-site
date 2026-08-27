@@ -326,13 +326,13 @@
 
     <div id="browseGate" class="browse-gate">
       <h3>Verify your school email to browse</h3>
-      <p>Relay is exclusive to students right now. Enter your school email and we'll send you a 6-digit code — no password needed.</p>
+      <p>Relay is exclusive to students right now. Enter your school email and we'll send you a one-time code — no password needed.</p>
       <div class="gate-form" id="gateEmailStep">
         <input type="email" id="gateEmail" placeholder="you@yourschool.edu">
         <button id="gateSendBtn" class="btn btn-primary">Send code</button>
       </div>
       <div class="gate-form hidden" id="gateCodeStep">
-        <input type="text" id="gateCode" placeholder="6-digit code" inputmode="numeric" maxlength="6">
+        <input type="text" id="gateCode" placeholder="code from email" inputmode="numeric" maxlength="8">
         <button id="gateVerifyBtn" class="btn btn-primary">Verify</button>
       </div>
       <p id="gateError" class="gate-error hidden"></p>
@@ -726,18 +726,23 @@
 
     gateSendBtn.disabled = true;
     gateSendBtn.textContent = 'Sending…';
-    const { error } = await sb.auth.signInWithOtp({ email });
-    gateSendBtn.disabled = false;
-    gateSendBtn.textContent = 'Send code';
-
-    if (error) {
-      showGateError(error.message || 'Something went wrong sending that email — please try again.');
-    } else {
-      pendingEmail = email;
-      gateSent.classList.remove('hidden');
-      gateEmailStep.classList.add('hidden');
-      gateCodeStep.classList.remove('hidden');
-      gateCode.focus();
+    try {
+      const { error } = await sb.auth.signInWithOtp({ email });
+      if (error) {
+        showGateError(error.message || 'Something went wrong sending that email — please try again.');
+      } else {
+        pendingEmail = email;
+        gateSent.classList.remove('hidden');
+        gateEmailStep.classList.add('hidden');
+        gateCodeStep.classList.remove('hidden');
+        gateCode.focus();
+      }
+    } catch (err) {
+      console.error('sendCode failed:', err);
+      showGateError('Unexpected error: ' + (err && err.message ? err.message : String(err)));
+    } finally {
+      gateSendBtn.disabled = false;
+      gateSendBtn.textContent = 'Send code';
     }
   }
 
@@ -752,14 +757,19 @@
 
     gateVerifyBtn.disabled = true;
     gateVerifyBtn.textContent = 'Verifying…';
-    const { error } = await sb.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' });
-    gateVerifyBtn.disabled = false;
-    gateVerifyBtn.textContent = 'Verify';
-
-    if (error) {
-      showGateError('That code didn\'t work — check for typos, or resend a new one.');
+    try {
+      const { error } = await sb.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' });
+      if (error) {
+        showGateError(error.message || 'That code didn\'t work — check for typos, or resend a new one.');
+      }
+      // On success, onAuthStateChange fires automatically and renderAuthState() takes over.
+    } catch (err) {
+      console.error('verifyOtp failed:', err);
+      showGateError('Unexpected error: ' + (err && err.message ? err.message : String(err)));
+    } finally {
+      gateVerifyBtn.disabled = false;
+      gateVerifyBtn.textContent = 'Verify';
     }
-    // On success, onAuthStateChange fires automatically and renderAuthState() takes over.
   });
 
   signOutLink.addEventListener('click', async (e) => {
