@@ -99,6 +99,13 @@
   .section-head p{ margin-top:14px; font-size:1.02rem; line-height:1.6; color:var(--muted); }
   .center{ text-align:center; margin-left:auto; margin-right:auto; }
 
+  /* PARTNER SCHOOLS */
+  .partner-schools-list{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .partner-school-pill{
+    font-size:0.88rem; font-weight:600; padding:8px 16px; border-radius:999px;
+    background:var(--paper-dim); border:1px solid var(--line); color:var(--ink);
+  }
+
   /* HOW IT WORKS */
   #how{ background:var(--sienna); }
   #how .section-head .eyebrow{ color:#A9CFC2; }
@@ -290,6 +297,13 @@
   </div>
 </section>
 
+<section id="partnerSchools" class="hidden" style="padding:40px 0; border-top:none;">
+  <div class="wrap" style="text-align:center;">
+    <span class="eyebrow" style="margin-bottom:16px;">Partnering with</span>
+    <div id="partnerSchoolsList" class="partner-schools-list"></div>
+  </div>
+</section>
+
 <section class="section-alt" id="how">
   <div class="wrap">
     <div class="section-head center">
@@ -471,13 +485,22 @@
       <div class="form-grid hidden" id="schoolClubFields">
         <label class="field">
           <span>What school?</span>
-          <input type="text" name="school_name">
+          <select id="schoolSelect" name="school_name_select">
+            <option value="" disabled selected>Choose your school</option>
+            <option value="__other__">My school isn't listed</option>
+          </select>
+        </label>
+        <label class="field hidden" id="schoolOtherField">
+          <span>School name</span>
+          <input type="text" id="schoolOtherInput" name="school_name_other">
         </label>
         <label class="field">
           <span>Email of a school contact to reach out to</span>
           <input type="email" name="school_contact_email">
         </label>
       </div>
+
+      <input type="hidden" name="school_name" id="schoolNameHidden" value="">
 
       <label class="field field-wide">
         <span>What does this project actually do, week to week?</span>
@@ -795,6 +818,49 @@
       schoolClubFields.classList.toggle('hidden', radio.value !== 'Yes' || !radio.checked);
     });
   });
+
+  /* ---- SCHOOLS (partner list + form dropdown) ---- */
+  const schoolSelect = document.getElementById('schoolSelect');
+  const schoolOtherField = document.getElementById('schoolOtherField');
+  const schoolOtherInput = document.getElementById('schoolOtherInput');
+  const schoolNameHidden = document.getElementById('schoolNameHidden');
+  const partnerSchoolsSection = document.getElementById('partnerSchools');
+  const partnerSchoolsList = document.getElementById('partnerSchoolsList');
+
+  schoolSelect.addEventListener('change', () => {
+    if (schoolSelect.value === '__other__') {
+      schoolOtherField.classList.remove('hidden');
+      schoolNameHidden.value = '';
+      schoolOtherInput.focus();
+    } else {
+      schoolOtherField.classList.add('hidden');
+      schoolNameHidden.value = schoolSelect.value;
+    }
+  });
+  schoolOtherInput.addEventListener('input', () => {
+    schoolNameHidden.value = schoolOtherInput.value;
+  });
+
+  (async function loadSchools() {
+    try {
+      const { data, error } = await sb.from('schools').select('name').order('name');
+      if (error || !data || data.length === 0) return;
+
+      data.forEach(school => {
+        const opt = document.createElement('option');
+        opt.value = school.name;
+        opt.textContent = school.name;
+        schoolSelect.insertBefore(opt, schoolSelect.querySelector('option[value="__other__"]'));
+      });
+
+      if (partnerSchoolsSection && partnerSchoolsList) {
+        partnerSchoolsList.innerHTML = data.map(s => `<span class="partner-school-pill">${s.name}</span>`).join('');
+        partnerSchoolsSection.classList.remove('hidden');
+      }
+    } catch (err) {
+      console.error('loadSchools failed:', err);
+    }
+  })();
 
   const applyForm = document.getElementById('applyForm');
   const applySuccess = document.getElementById('applySuccess');
