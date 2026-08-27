@@ -132,6 +132,24 @@
     background:rgba(61,122,108,0.06); font-size:0.95rem; line-height:1.6; border-radius:0 6px 6px 0;
   }
 
+  /* BROWSE — school email gate */
+  .browse-gate{
+    border:1px solid var(--line); border-radius:8px; padding:36px 32px; max-width:520px;
+    background:#fff;
+  }
+  .browse-gate h3{ font-size:1.1rem; margin-bottom:10px; font-weight:600; }
+  .browse-gate p{ font-size:0.93rem; color:var(--muted); line-height:1.6; margin:0 0 20px; }
+  .gate-form{ display:flex; gap:10px; flex-wrap:wrap; }
+  .gate-form input{
+    flex:1; min-width:220px; font-family:'Plus Jakarta Sans', sans-serif; font-size:0.92rem;
+    padding:11px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink);
+  }
+  .gate-form input:focus{ outline:2px solid var(--moss); outline-offset:1px; border-color:var(--moss); }
+  .gate-error{ font-size:0.86rem; color:#B23A3A; margin-top:12px !important; }
+  .gate-sent{ font-size:0.9rem; color:var(--moss); margin-top:16px !important; font-weight:600; }
+  .signed-in-as{ font-size:0.85rem; color:var(--muted); margin-top:8px; }
+  .signed-in-as a{ font-weight:600; text-decoration:none; border-bottom:1px solid var(--ink); cursor:pointer; }
+
   /* BROWSE — empty state */
   .empty-state{
     border:1px dashed var(--line); border-radius:8px; padding:44px 30px; text-align:center;
@@ -243,6 +261,7 @@
   .listing-card.highlight{ border-color:var(--moss); border-width:2px; box-shadow:0 0 0 4px rgba(61,122,108,0.12); }
 </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <body>
 
 <header>
@@ -304,11 +323,26 @@
       <h2>Projects looking for their next leader</h2>
       <p>Every listing below comes from a real founder who's ready to hand things off.</p>
     </div>
-    <div class="listings" id="listingsGrid"></div>
-    <div id="emptyState" class="empty-state hidden">
-      <h3>No listings yet</h3>
-      <p>Check back soon, or be the first to pass one on.</p>
-      <a href="#submit" class="btn btn-primary">Pass on your project</a>
+
+    <div id="browseGate" class="browse-gate">
+      <h3>Verify your school email to browse</h3>
+      <p>Relay is exclusive to students right now. Enter your school email and we'll send you a sign-in link — no password needed.</p>
+      <div class="gate-form">
+        <input type="email" id="gateEmail" placeholder="you@yourschool.edu">
+        <button id="gateSendBtn" class="btn btn-primary">Send sign-in link</button>
+      </div>
+      <p id="gateError" class="gate-error hidden"></p>
+      <p id="gateSent" class="gate-sent hidden">Check your email — click the link to continue. You can close this tab.</p>
+    </div>
+
+    <div id="browseContent" class="hidden">
+      <div class="listings" id="listingsGrid"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <h3>No listings yet</h3>
+        <p>Check back soon, or be the first to pass one on.</p>
+        <a href="#submit" class="btn btn-primary">Pass on your project</a>
+      </div>
+      <p class="signed-in-as">Signed in as <strong id="signedInEmail"></strong> · <a href="#" id="signOutLink">Sign out</a></p>
     </div>
   </div>
 </section>
@@ -602,6 +636,91 @@
 </div>
 
 <script>
+  /* ---- SCHOOL EMAIL GATE (Supabase Auth) ---- */
+  const SUPABASE_URL = 'https://mkwxxxuefavjqwaxyire.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rd3h4eHVlZmF2anF3YXh5aXJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4MzU3OTUsImV4cCI6MjEwMzQxMTc5NX0.UZUI_7LfVMTMS9Ybq2VgmW78lQBM0Gw-fiy_vOIzoGE';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const PERSONAL_EMAIL_DOMAINS = [
+    'gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','aol.com',
+    'live.com','msn.com','protonmail.com','proton.me','mail.com','yandex.com','gmx.com'
+  ];
+  function looksLikeSchoolEmail(email) {
+    const domain = (email.split('@')[1] || '').toLowerCase().trim();
+    if (!domain) return false;
+    return !PERSONAL_EMAIL_DOMAINS.includes(domain);
+  }
+
+  const browseGate = document.getElementById('browseGate');
+  const browseContent = document.getElementById('browseContent');
+  const gateEmail = document.getElementById('gateEmail');
+  const gateSendBtn = document.getElementById('gateSendBtn');
+  const gateError = document.getElementById('gateError');
+  const gateSent = document.getElementById('gateSent');
+  const signedInEmail = document.getElementById('signedInEmail');
+  const signOutLink = document.getElementById('signOutLink');
+
+  function showGateError(msg) {
+    gateError.textContent = msg;
+    gateError.classList.remove('hidden');
+    gateSent.classList.add('hidden');
+  }
+
+  function renderAuthState(session) {
+    const email = session && session.user ? session.user.email : null;
+    if (email && looksLikeSchoolEmail(email)) {
+      browseGate.classList.add('hidden');
+      browseContent.classList.remove('hidden');
+      signedInEmail.textContent = email;
+      renderListings();
+    } else if (email) {
+      browseContent.classList.add('hidden');
+      browseGate.classList.remove('hidden');
+      showGateError('That email isn\'t recognized as a school email. Please sign out and try again with your school address.');
+    } else {
+      browseContent.classList.add('hidden');
+      browseGate.classList.remove('hidden');
+    }
+  }
+
+  sb.auth.getSession().then(({ data }) => renderAuthState(data.session));
+  sb.auth.onAuthStateChange((_event, session) => renderAuthState(session));
+
+  gateSendBtn.addEventListener('click', async () => {
+    const email = gateEmail.value.trim();
+    gateError.classList.add('hidden');
+    gateSent.classList.add('hidden');
+
+    if (!email) { showGateError('Enter your school email first.'); return; }
+    if (!looksLikeSchoolEmail(email)) {
+      showGateError('Please use your school email, not a personal address like Gmail or Yahoo.');
+      return;
+    }
+
+    gateSendBtn.disabled = true;
+    gateSendBtn.textContent = 'Sending…';
+    const { error } = await sb.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: window.location.origin + window.location.pathname }
+    });
+    gateSendBtn.disabled = false;
+    gateSendBtn.textContent = 'Send sign-in link';
+
+    if (error) {
+      showGateError('Something went wrong sending that email — please try again.');
+    } else {
+      gateSent.classList.remove('hidden');
+    }
+  });
+
+  signOutLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+    await sb.auth.signOut();
+    gateEmail.value = '';
+    gateError.classList.add('hidden');
+    gateSent.classList.add('hidden');
+  });
+
   const menuBtn = document.getElementById('menuBtn');
   const navLinks = document.getElementById('navLinks');
   menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
@@ -709,7 +828,6 @@
       </div>
     `).join('');
   }
-  renderListings();
 
   document.getElementById('listingsGrid').addEventListener('click', (e) => {
     const btn = e.target.closest('.apply-btn');
