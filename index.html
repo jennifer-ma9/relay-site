@@ -725,7 +725,7 @@
     gateSendBtn.textContent = 'Send code';
 
     if (error) {
-      showGateError('Something went wrong sending that email — please try again.');
+      showGateError(error.message || 'Something went wrong sending that email — please try again.');
     } else {
       pendingEmail = email;
       gateSent.classList.remove('hidden');
