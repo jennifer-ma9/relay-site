@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relay — A second life for good ideas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#14202E;
@@ -17,7 +18,7 @@
     --moss:#3D7A6C;
     --rust:#23433B;
     --line:rgba(20,32,46,0.12);
-    --muted:#5B6670;
+    --muted:#4A5560;
     --btn-border:#14202E;
     --btn-ink:#F4EEE1;
   }
@@ -31,9 +32,9 @@
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.display{
-    font-family:'Plus Jakarta Sans', sans-serif;
-    font-weight:700;
-    letter-spacing:-0.02em;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
     margin:0;
   }
   a{ color:inherit; }
@@ -74,7 +75,7 @@
     margin-bottom:20px; font-weight:600; display:block;
   }
   .hero h1{
-    font-size:clamp(2.4rem,5.6vw,3.8rem); line-height:1.08; letter-spacing:-0.03em; color:var(--ink);
+    font-size:clamp(2.4rem,5.6vw,3.8rem); line-height:1.08; letter-spacing:-0.01em; color:var(--ink);
   }
   .hero p.lede{
     font-size:1.15rem; line-height:1.6; max-width:560px; margin:22px auto 36px; color:var(--muted);
@@ -95,7 +96,7 @@
   .section-alt{ background:var(--paper-dim); }
   .section-head{ max-width:640px; margin-bottom:44px; }
   .section-head .eyebrow{ margin-bottom:12px; }
-  .section-head h2{ font-size:clamp(1.7rem,3.2vw,2.2rem); line-height:1.2; letter-spacing:-0.02em; }
+  .section-head h2{ font-size:clamp(1.7rem,3.2vw,2.2rem); line-height:1.2; letter-spacing:-0.01em; }
   .section-head p{ margin-top:14px; font-size:1.02rem; line-height:1.6; color:var(--muted); }
   .center{ text-align:center; margin-left:auto; margin-right:auto; }
 
@@ -289,6 +290,9 @@
   .idea-result p{ font-size:0.88rem; color:var(--muted); line-height:1.5; margin:6px 0 10px; }
   .idea-result a.view-link{ font-size:0.85rem; font-weight:600; text-decoration:none; border-bottom:1px solid var(--ink); }
   .listing-card.highlight{ border-color:var(--moss); border-width:2px; box-shadow:0 0 0 4px rgba(61,122,108,0.12); }
+
+  /* Honeypot field — invisible to people, catches simple form bots */
+  .hp-field{ position:absolute; left:-9999px; top:-9999px; }
 </style>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -392,13 +396,13 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Dormant clubs</span>
-      <h2 id="dormantClubsHeading">Clubs at your school waiting for a new leader</h2>
+      <h2 id="dormantClubsHeading">Dormant clubs waiting for a new leader</h2>
       <p>These clubs were officially chartered, then went inactive. Everything the last leaders left behind is right here.</p>
     </div>
 
     <div id="ownSchoolClubs" class="dormant-clubs-grid"></div>
     <div id="noOwnSchoolClubs" class="hidden" style="color:var(--muted); font-size:0.95rem;">
-      No dormant clubs listed at your school yet.
+      No dormant clubs listed yet.
     </div>
 
     <div id="otherSchoolsWrap" class="hidden" style="margin-top:56px;">
@@ -418,6 +422,7 @@
     </div>
 
     <form id="applyForm" class="submit-form" action="https://formspree.io/f/mdenqljg" method="POST">
+      <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <input type="hidden" id="applyingForField" name="project_applying_for" value="">
       <p style="margin-bottom:20px; font-size:0.95rem;">Applying for: <strong id="applyingForLabel">Select a project above first</strong></p>
 
@@ -477,6 +482,7 @@
     </div>
 
     <form id="continuityForm" class="submit-form" action="https://formspree.io/f/mwledvjq" method="POST" enctype="multipart/form-data">
+      <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="form-grid">
         <label class="field">
           <span>Project name</span>
@@ -607,49 +613,42 @@
       <details class="faq-item">
         <summary>How can Relay be used by students?</summary>
         <div class="faq-answer">
-          <p>Relay serves two primary groups of students: those preparing to graduate and pass on projects they have built, and those looking to lead a cause, organization, or initiative that aligns with their interests. Relay connects these students to make the transition between generations more seamless.</p>
-          <p>For incoming leaders, Relay provides access to the practical knowledge needed to get started — from budgets, member counts, and organizational structures to past meeting materials, resources, and examples of successful programming. For outgoing leaders, Relay offers peace of mind that the work they invested in will not simply disappear when they graduate, but can continue under a new generation of leadership.</p>
-          <p>By preserving these connections and institutional knowledge, Relay also creates opportunities for collaboration, mentorship, and networking among student leaders across generations.</p>
+          <p>Relay serves two kinds of students: those graduating and ready to pass on something they built, and those looking for a cause or organization to lead next.</p>
+          <p>If you're taking something over, you get the practical stuff you'd otherwise have to rebuild from scratch — budgets, member counts, meeting notes, and examples of what's worked before. If you're graduating, you get to walk away knowing the work doesn't just stop.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>How can Relay be used by schools?</summary>
         <div class="faq-answer">
-          <p>Relay helps schools streamline and preserve the life cycles of student organizations and initiatives.</p>
-          <p>When a club is first chartered, schools often collect valuable information such as its mission, constitution, budget, membership numbers, and organizational structure. However, when a club becomes inactive, that institutional knowledge can easily become difficult to access — even when the underlying idea remains valuable.</p>
-          <p>For example, a Debate Club may become dormant after several years, only for a new group of students to propose starting a nearly identical organization. If the school's existing club records were preserved on Relay, students could discover the organization's history, resources, and previous structure before creating something from scratch.</p>
-          <p>Schools could also use Relay as a centralized archive for student organizations, allowing administrators and students to identify existing or dormant organizations, preserve institutional knowledge, and build upon previous work rather than repeatedly starting from zero.</p>
+          <p>Relay helps schools keep track of student organizations instead of losing that history every time a club goes inactive.</p>
+          <p>When a club is chartered, schools often collect useful info — its mission, budget, membership, structure. Once it goes dormant, that record is easy to lose track of, even though the idea behind it might still be worth reviving.</p>
+          <p>Say a Debate Club goes inactive for a few years, then a new group of students wants to start something almost identical. If the old club's records were on Relay, they could pick up where it left off instead of starting from zero.</p>
+          <p>Schools can also use Relay as a running archive of student organizations — a way to see what already exists, or used to, before approving something new.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>What if I want to "found" a club even though a similar club already exists?</summary>
         <div class="faq-answer">
-          <p>Relay believes that leadership is about more than being the first person to have an idea.</p>
-          <p>If a similar organization already exists — or existed in the past — there may still be meaningful opportunities to take the project in a new direction. Instead of discarding the work of previous students, a new leader can build upon that foundation, introduce their own vision, and create the next chapter of the organization's history.</p>
-          <p>Consider: 2025 — Founded by Maya. 2026 — Expanded to three schools. 2027 — Leadership transferred to Sarah. 2028 — Sarah launched a new mentorship program.</p>
-          <p>Sarah did not technically "found" the organization. But she expanded its reach, introduced a new initiative, and left her own mark on its development. Her leadership and impact are no less meaningful because someone else started the project.</p>
-          <p>Relay therefore treats project lineage as an asset, not a limitation. A project can have multiple generations of leaders, each contributing something distinct to its growth and evolution. Rather than asking "Who founded it?", Relay asks: "What did you do with it?"</p>
+          <p>That's not necessarily a problem. If a similar organization already exists, or existed before, there's usually still room to take it somewhere new — build on what's there, add your own direction, and start the next chapter instead of the first one.</p>
+          <p>Relay treats a project's history as something to build on, not something that boxes you in. A project can have several generations of leaders, each adding something different. The more useful question isn't "who founded this" — it's "what did you do with it."</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>What should I do if the organization I am looking to pass on is school-based?</summary>
         <div class="faq-answer">
-          <p>If you are open to expanding your organization beyond your school — whether to other schools in your region or to students more broadly — you can create a regular Relay listing and note that the organization originated within a school environment.</p>
-          <p>If you would like to keep the organization exclusively school-based, select your affiliated school when registering. If your school already has a Relay profile, your organization can be connected to its school portal.</p>
-          <p>If your school does not yet have a Relay profile, please contact both Relay and an appropriate school administrator so that we can help establish one.</p>
+          <p>If you're open to expanding beyond your school — to other schools or to students more broadly — you can list it as a regular Relay project and just note where it started.</p>
+          <p>If you'd rather keep it school-specific, select your school when you register. If your school already has a Relay profile, your listing gets connected to it. If it doesn't yet, reach out to us and to a school admin so we can get one set up.</p>
         </div>
       </details>
 
       <details class="faq-item">
         <summary>What if I can't find an existing project that matches what I want to do?</summary>
         <div class="faq-answer">
-          <p>That may be a good thing.</p>
-          <p>Relay is designed not only to preserve existing projects, but to help students build new ones. If you have a vision for an initiative that does not yet exist on Relay — or even in your community — it may be an opportunity to create something genuinely new.</p>
-          <p>You can use Relay to develop your idea, find potential collaborators, and build a team around your vision. And when your time with the organization eventually comes to an end, you can pass it forward to the next generation rather than letting the work disappear.</p>
-          <p>Not every idea needs a predecessor. But every great project can have a successor.</p>
+          <p>That might be a good thing. Relay isn't only for reviving existing projects — it's also a place to start something new. If you have an idea that doesn't exist here yet, or even in your community, that's an opening.</p>
+          <p>You can use Relay to build the idea out and find people to work on it with you. And when it's eventually your turn to move on, you can pass it to whoever's next instead of letting it end.</p>
         </div>
       </details>
     </div>
@@ -712,17 +711,15 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rd3h4eHVlZmF2anF3YXh5aXJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc4MzU3OTUsImV4cCI6MjEwMzQxMTc5NX0.UZUI_7LfVMTMS9Ybq2VgmW78lQBM0Gw-fiy_vOIzoGE';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // Set to true to require school-email verification before Browse is visible.
+  // Off for now while we're still collecting listings — flip back on later.
+  const BROWSE_GATE_ENABLED = false;
+
   const PERSONAL_EMAIL_DOMAINS = [
     'gmail.com','yahoo.com','hotmail.com','outlook.com','icloud.com','aol.com',
     'live.com','msn.com','protonmail.com','proton.me','mail.com','yandex.com','gmx.com'
   ];
-  // TEMP TESTING FLAG — set to true only while confirming the email pipeline works
-  // with your own personal address (since your SMTP provider's sandbox can only
-  // deliver to that address until a sending domain is verified). Set back to
-  // false before this goes live for real users.
-  const TESTING_ALLOW_PERSONAL_EMAIL = false;
   function looksLikeSchoolEmail(email) {
-    if (TESTING_ALLOW_PERSONAL_EMAIL) return true;
     const domain = (email.split('@')[1] || '').toLowerCase().trim();
     if (!domain) return false;
     return !PERSONAL_EMAIL_DOMAINS.includes(domain);
@@ -780,8 +777,10 @@
     }
   }
 
-  sb.auth.getSession().then(({ data }) => renderAuthState(data.session));
-  sb.auth.onAuthStateChange((_event, session) => renderAuthState(session));
+  if (BROWSE_GATE_ENABLED) {
+    sb.auth.getSession().then(({ data }) => renderAuthState(data.session));
+    sb.auth.onAuthStateChange((_event, session) => renderAuthState(session));
+  }
 
   async function sendCode() {
     const email = gateEmail.value.trim();
@@ -945,8 +944,6 @@
 
   async function loadDormantClubs(email) {
     await schoolsLoadedPromise;
-    const domain = (email.split('@')[1] || '').toLowerCase().trim();
-    const matchedSchool = schoolsCache.find(s => s.domain && s.domain.toLowerCase() === domain);
 
     const dormantSection = document.getElementById('dormantClubs');
     const heading = document.getElementById('dormantClubsHeading');
@@ -961,6 +958,33 @@
       const clubs = data || [];
 
       dormantSection.classList.remove('hidden');
+
+      if (!email) {
+        // No school verification in place right now (gate is off) — show every
+        // dormant club together, full detail, instead of the "your school /
+        // other schools" split that only makes sense once we know who's asking.
+        heading.textContent = 'Dormant clubs waiting for a new leader';
+        otherWrap.classList.add('hidden');
+        if (clubs.length === 0) {
+          ownGrid.innerHTML = '';
+          noOwn.classList.remove('hidden');
+        } else {
+          noOwn.classList.add('hidden');
+          ownGrid.innerHTML = clubs.map(renderFullClubCard).join('');
+          ownGrid.querySelectorAll('.revive-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              document.getElementById('applyingForField').value = btn.dataset.clubName;
+              document.getElementById('applyingForLabel').textContent = btn.dataset.clubName;
+              document.getElementById('apply').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          });
+        }
+        return;
+      }
+
+      const domain = (email.split('@')[1] || '').toLowerCase().trim();
+      const matchedSchool = schoolsCache.find(s => s.domain && s.domain.toLowerCase() === domain);
+
       heading.textContent = matchedSchool ? `Dormant clubs at ${matchedSchool.name}` : 'Dormant clubs';
 
       const ownClubs = matchedSchool ? clubs.filter(c => c.school_id === matchedSchool.id) : [];
@@ -1187,6 +1211,18 @@
       });
     });
   });
+
+  /* ---- GATE BYPASS ----
+     Runs while BROWSE_GATE_ENABLED is false, after everything above has
+     finished initializing (schoolsCache, LISTINGS, etc.). Flip the flag
+     near the top of this script back to true to require school-email
+     verification again — the gate UI and auth code are still all here. */
+  if (!BROWSE_GATE_ENABLED) {
+    browseGate.classList.add('hidden');
+    browseContent.classList.remove('hidden');
+    renderListings();
+    loadDormantClubs('');
+  }
 </script>
 
 </body>
