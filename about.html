@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About Relay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#14202E;
@@ -28,9 +29,9 @@
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.display{
-    font-family:'Plus Jakarta Sans', sans-serif;
-    font-weight:700;
-    letter-spacing:-0.02em;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
     margin:0;
   }
   a{ color:inherit; }
@@ -71,7 +72,7 @@
     font-size:0.82rem; letter-spacing:0.04em; color:var(--brass-dim);
     margin-bottom:16px; font-weight:600; display:block;
   }
-  .page-hero h1{ font-size:clamp(2rem, 4.5vw, 2.6rem); line-height:1.15; letter-spacing:-0.02em; max-width:700px; }
+  .page-hero h1{ font-size:clamp(2rem, 4.5vw, 2.6rem); line-height:1.15; letter-spacing:-0.01em; max-width:700px; }
   .byline{ display:flex; align-items:center; gap:12px; margin-top:22px; }
   .byline-photo{
     width:42px; height:42px; border-radius:50%; object-fit:cover;
@@ -90,7 +91,7 @@
   /* HOW IT WORKS (moved from index.html) */
   .section-head{ max-width:640px; margin-bottom:32px; }
   .section-head .eyebrow{ margin-bottom:12px; }
-  .section-head h2{ font-size:clamp(1.5rem,3vw,1.9rem); line-height:1.2; letter-spacing:-0.02em; }
+  .section-head h2{ font-size:clamp(1.5rem,3vw,1.9rem); line-height:1.2; letter-spacing:-0.01em; }
   .steps{ display:grid; gap:20px; }
   .steps.two-col{ grid-template-columns:1fr 1fr; }
   @media (max-width:640px){ .steps.two-col{ grid-template-columns:1fr; } }
@@ -100,8 +101,10 @@
   /* STORY (moved from index.html) */
   .story{ background:var(--sienna); color:var(--paper-dim); }
   .story-single{ max-width:680px; }
-  .story h2{ font-weight:700; letter-spacing:-0.02em; }
+  .story h2{ font-weight:600; letter-spacing:-0.01em; }
   .story p{ line-height:1.7; opacity:0.82; font-size:1.02rem; }
+
+  .section-sage{ background:#B8C7AE; }
 
   footer{ padding:44px 0 40px; background:var(--sienna); }
   .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:0.85rem; color:rgba(244,238,225,0.8); }
@@ -125,14 +128,14 @@
       <a href="index.html#how">How it works</a>
       <a href="index.html#browse">Browse projects</a>
       <a href="index.html#faq">FAQ</a>
-      <a href="index.html#submit" class="nav-cta">List your project</a>
+      <a href="index.html#submit" class="nav-cta">Pass the Torch</a>
     </div>
   </nav>
 </header>
 
 <section class="story" id="story" style="border-top:none;">
   <div class="wrap story-single">
-    <h2 style="font-size:clamp(1.8rem,3.4vw,2.4rem); color:var(--paper-dim);">Somewhere, someone is starting what someone else just left behind.</h2>
+    <h2 style="font-size:clamp(1.8rem,3.4vw,2.4rem); color:var(--paper-dim); font-style:italic; font-weight:500;">Somewhere, someone is starting what someone else just left behind.</h2>
     <p style="margin-top:16px;">Every year, students graduate and leave behind projects they've poured years into. At the same time, new students are dreaming up ideas to serve their communities, solve problems, and make a difference. Relay connects the two.</p>
   </div>
 </section>
@@ -151,14 +154,14 @@
 <section style="padding-top:24px; border-top:none;">
   <div class="wrap content">
     <p>When I was a freshman in high school, I joined a club at my school where we would tutor girls in South Africa. Every Wednesday morning, we'd join a Zoom call with 10–14 girls who shared one computer, and work through math and science problems with them. This became one of my favorite clubs, and I hoped to eventually become a head of the organization.</p>
-    <p>However, the next year, the founder and Senior Head of our club graduated, and we lost contact with the South African school. I wondered for months after this, what would happen to the routine we'd built with the South African girls. Their weekly tutoring and improvement had been stalled and abandoned completely. The community we had been helping still existed, their need for our help still existed, everything – lesson plans, tutors, were still in place – yet the club simply disappeared because there was no one to take it over.</p>
-    <p>I've since watched similar things happen to other student-led projects. Ones with more pressing issues like food insecurity, clothing insecurity, and health.</p>
+    <p>The next year, though, the founder and senior head of our club graduated, and we lost contact with the South African school. For months I wondered what would happen to the routine we'd built with those girls. The weekly tutoring just stopped. The community we'd been helping still existed, their need for it still existed, and everything — the lesson plans, the tutors — was still in place. But the club disappeared anyway, because there was no one left to take it over.</p>
+    <p>I've since watched the same thing happen to other student-led projects — some working on even more pressing issues, like food insecurity, clothing insecurity, and health.</p>
     <p>Relay is an attempt to pass on existing projects, keeping the torch of passion and impact alive.</p>
     <a href="index.html" class="back-link">← Back to Relay</a>
   </div>
 </section>
 
-<section>
+<section class="section-sage">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">How it works</span>
@@ -184,7 +187,7 @@
       <a href="about.html">About Relay</a>
       <a href="index.html#how">How it works</a>
       <a href="index.html#browse">Browse projects</a>
-      <a href="index.html#submit" class="nav-cta">List your project</a>
+      <a href="index.html#submit" class="nav-cta">Pass the Torch</a>
     </div>
   </div>
 </footer>
